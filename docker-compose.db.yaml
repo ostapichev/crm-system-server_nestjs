@@ -1,0 +1,8 @@
+services:
+  crm-system-redis:
+    image: redis:7.2.3
+    ports:
+      - ${REDIS_PORT:-6379}:6379
+    command: >
+      --requirepass ${REDIS_PASSWORD:-redispass}
+    restart: unless-stopped
