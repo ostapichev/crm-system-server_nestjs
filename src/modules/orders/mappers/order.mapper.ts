@@ -1,4 +1,3 @@
-import { ConfigStaticService } from '../../../config';
 import { OrderEntity } from '../../../database/entities';
 import { ListQueryDto } from '../dto/req/list-query.dto';
 import { OrderResDto } from '../dto/res/order.res.dto';

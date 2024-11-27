@@ -1,18 +1,8 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 
-import {
-  CommentsEntity,
-  GroupEntity,
-  OrderEntity,
-  UserEntity,
-} from '../../../database/entities';
-import { IUserData } from '../../auth/interfaces/user-data.interface';
+import { OrderEntity } from '../../../database/entities';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { ListQueryDto } from '../dto/req/list-query.dto';
 import { UpdateOrderReqDto } from '../dto/req/update-car.dto';
