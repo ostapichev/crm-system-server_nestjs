@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiConflictResponse,
@@ -36,7 +36,7 @@ export class UsersController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @Get(':userId')
   public async findOne(
-    @Param('userId', ParseUUIDPipe) userId: number,
+    @Param('userId') userId: number,
   ): Promise<UserResPublicDto> {
     const result = await this.usersService.findOne(userId);
     return UserMapper.toResponsePublicDTO(result);

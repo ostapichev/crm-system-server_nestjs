@@ -14,31 +14,31 @@ import { UserEntity } from './user.entity';
 
 @Entity(TableNameEnum.ORDERS)
 export class OrderEntity extends CreateUpdateModel {
-  @Column({ length: 50, default: '' })
-  name: string;
+  @Column({ length: 25, nullable: true })
+  name?: string;
 
-  @Column({ length: 25, default: '' })
-  surname: string;
+  @Column({ length: 25, nullable: true })
+  surname?: string;
 
-  @Column({ length: 100, default: '', unique: true })
+  @Column({ length: 100, nullable: true })
   email?: string;
 
-  @Column({ length: 12, default: '' })
+  @Column({ length: 12, nullable: true })
   phone?: string;
 
   @Column('int', { default: 0 })
   age?: number;
 
-  @Column({ length: 10, default: '' })
+  @Column({ length: 10, nullable: true })
   course?: CourseEnum;
 
-  @Column({ length: 15, default: '' })
+  @Column({ length: 15, nullable: true })
   course_format?: FormatEnum;
 
-  @Column({ length: 100, default: '' })
+  @Column({ length: 100, nullable: true })
   course_type?: TypeEnum;
 
-  @Column({ length: 15, default: '' })
+  @Column({ length: 15, nullable: true })
   status?: StatusEnum;
 
   @Column('bigint', { nullable: true })
@@ -47,10 +47,10 @@ export class OrderEntity extends CreateUpdateModel {
   @Column('bigint', { nullable: true })
   alreadyPaid?: number;
 
-  @Column({ length: 100, default: '' })
+  @Column({ length: 100, nullable: true })
   utm?: string;
 
-  @Column({ length: 100, default: '' })
+  @Column({ length: 100, nullable: true })
   msg?: string;
 
   @Column('bigint', { nullable: true })
@@ -60,7 +60,7 @@ export class OrderEntity extends CreateUpdateModel {
   group?: GroupEntity;
 
   @Column('bigint', { nullable: true })
-  manager_id: number;
+  manager_id?: number;
   @ManyToOne(() => UserEntity, (entity) => entity.orders)
   @JoinColumn({ name: 'manager_id' })
   manager?: UserEntity;

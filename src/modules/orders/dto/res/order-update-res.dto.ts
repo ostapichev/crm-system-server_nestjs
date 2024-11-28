@@ -14,4 +14,6 @@ export class OrderUpdateResDto extends PickType(BaseOrderResDto, [
   'status',
   'sum',
   'alreadyPaid',
+  'msg',
+  'utm',
 ]) {}

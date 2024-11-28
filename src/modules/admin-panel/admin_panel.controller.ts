@@ -31,7 +31,7 @@ import { AdminPanelService } from './services/admin_panel.service';
 
 @ApiBearerAuth()
 @ApiTags('Admin Panel')
-@Controller('admin-panel')
+@Controller('admin')
 export class AdminPanelController {
   constructor(
     private readonly adminPanelService: AdminPanelService,

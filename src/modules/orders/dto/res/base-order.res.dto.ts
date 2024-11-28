@@ -97,4 +97,14 @@ export class BaseOrderResDto {
     description: 'manager name',
   })
   manager: string;
+
+  @ApiProperty({
+    example: 'message',
+  })
+  msg: string;
+
+  @ApiProperty({
+    example: 'utm',
+  })
+  utm: string;
 }

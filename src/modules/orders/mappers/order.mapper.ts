@@ -29,6 +29,14 @@ export class OrderMapper {
       phone: entity.phone,
       age: entity.age,
       course: entity.course,
+      course_format: entity.course_format,
+      type: entity.course_type,
+      status: entity.status,
+      sum: entity.sum,
+      alreadyPaid: entity.alreadyPaid,
+      created_at: entity.created_at,
+      msg: entity.msg,
+      utm: entity.utm,
     };
   }
 
@@ -58,6 +66,8 @@ export class OrderMapper {
       status: entity.status,
       sum: entity.sum,
       alreadyPaid: entity.alreadyPaid,
+      msg: entity.msg,
+      utm: entity.utm,
     };
   }
 }

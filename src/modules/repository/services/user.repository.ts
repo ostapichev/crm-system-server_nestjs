@@ -14,7 +14,6 @@ export class UserRepository extends Repository<UserEntity> {
     query: ListQueryDto,
   ): Promise<[UserEntity[], number]> {
     const qb = this.createQueryBuilder('user');
-    qb.leftJoinAndSelect('user.cars', 'car');
     qb.andWhere('user.role != :role', { role: 'superuser' });
     if (query.search) {
       qb.andWhere('CONCAT(user.name, user.email) ILIKE :search');
@@ -28,7 +27,6 @@ export class UserRepository extends Repository<UserEntity> {
   public async getByIdUser(userId: number): Promise<UserEntity> {
     const qb = this.createQueryBuilder('user');
     qb.where('user.id = :userId', { userId });
-    qb.leftJoinAndSelect('user.cars', 'car');
     return await qb.getOne();
   }
 }

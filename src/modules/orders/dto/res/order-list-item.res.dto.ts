@@ -10,4 +10,12 @@ export class OrderListItemResDto extends PickType(BaseOrderResDto, [
   'phone',
   'age',
   'course',
+  'course_format',
+  'type',
+  'status',
+  'sum',
+  'alreadyPaid',
+  'created_at',
+  'msg',
+  'utm',
 ]) {}

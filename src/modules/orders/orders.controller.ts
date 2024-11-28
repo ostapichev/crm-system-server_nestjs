@@ -29,8 +29,10 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @ApiOperation({ description: 'Get list all orders' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @Get()
-  public async getListAllCars(
+  public async getListAllOrders(
     @Query() query: ListQueryDto,
   ): Promise<OrderListResDto> {
     const [entities, total] = await this.ordersService.getListAllOrders(query);
