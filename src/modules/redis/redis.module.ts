@@ -9,7 +9,6 @@ import { RedisService } from './services/redis.service';
 const redisProvider: Provider = {
   useFactory: (configService: ConfigService<Config>): Redis => {
     const redisConfig = configService.get<RedisConfig>('redis');
-
     return new Redis({
       port: redisConfig.port,
       host: redisConfig.host,

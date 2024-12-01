@@ -1,5 +1,5 @@
 import { OrderEntity } from '../../../database/entities';
-import { ListQueryDto } from '../dto/req/list-query.dto';
+import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
 import { OrderResDto } from '../dto/res/order.res.dto';
 import { OrderListResDto } from '../dto/res/order-list.res.dto';
 import { OrderListItemResDto } from '../dto/res/order-list-item.res.dto';
@@ -9,7 +9,7 @@ export class OrderMapper {
   public static toResponseListDTO(
     entities: OrderEntity[],
     total: number,
-    query: ListQueryDto,
+    query: OrderListQueryDto,
   ): OrderListResDto {
     return {
       data: entities.map(this.toResponseListItemDTO),

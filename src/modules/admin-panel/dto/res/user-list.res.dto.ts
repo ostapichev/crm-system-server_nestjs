@@ -1,7 +1,7 @@
-import { ListQueryDto } from '../../../orders/dto/req/list-query.dto';
+import { UserListQueryDto } from '../../../auth/dto/req/user-list-query.dto';
 import { UserResDto } from './user.res.dto';
 
-export class UserListResDto extends ListQueryDto {
+export class UserListResDto extends UserListQueryDto {
   data: UserResDto[];
   total: number;
 }

@@ -14,7 +14,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { ListQueryDto } from './dto/req/list-query.dto';
+import { OrderListQueryDto } from './dto/req/order-list-query.dto';
 import { UpdateOrderReqDto } from './dto/req/update-car.dto';
 import { OrderListResDto } from './dto/res/order-list.res.dto';
 import { OrderListItemResDto } from './dto/res/order-list-item.res.dto';
@@ -33,7 +33,7 @@ export class OrdersController {
   @ApiBearerAuth()
   @Get()
   public async getListAllOrders(
-    @Query() query: ListQueryDto,
+    @Query() query: OrderListQueryDto,
   ): Promise<OrderListResDto> {
     const [entities, total] = await this.ordersService.getListAllOrders(query);
     return OrderMapper.toResponseListDTO(entities, total, query);

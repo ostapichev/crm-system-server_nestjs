@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities';
-import { ListQueryDto } from '../../orders/dto/req/list-query.dto';
+import { OrderListQueryDto } from '../../orders/dto/req/order-list-query.dto';
 
 @Injectable()
 export class OrderRepository extends Repository<OrderEntity> {
@@ -16,7 +16,7 @@ export class OrderRepository extends Repository<OrderEntity> {
   }
 
   public async getListAllOrders(
-    query: ListQueryDto,
+    query: OrderListQueryDto,
   ): Promise<[OrderEntity[], number]> {
     const qb = this.createQueryBuilder('order');
     return await this.qbHelper(qb, query);
@@ -34,7 +34,7 @@ export class OrderRepository extends Repository<OrderEntity> {
 
   private async qbHelper(
     qb: SelectQueryBuilder<OrderEntity>,
-    query: ListQueryDto,
+    query: OrderListQueryDto,
   ): Promise<[OrderEntity[], number]> {
     const { limit, sorting_by, order_by } = query;
     qb.orderBy(`order.${sorting_by}`, order_by);

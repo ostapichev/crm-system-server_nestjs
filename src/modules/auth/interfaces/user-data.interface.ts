@@ -7,5 +7,4 @@ export interface IUserData {
   email: string;
   is_active: boolean;
   role: UserRoleEnum;
-  last_login: Date;
 }

@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 import { TableNameEnum, UserRoleEnum } from '../enums';
 import { CommentsEntity } from './comments.entity';
@@ -25,9 +25,6 @@ export class UserEntity extends CreateUpdateModel {
 
   @Column('boolean', { default: false })
   is_active: boolean;
-
-  @CreateDateColumn({ type: 'timestamp', default: '' })
-  last_login?: Date;
 
   @OneToMany(() => CommentsEntity, (entity) => entity.user)
   comments?: CommentsEntity[];

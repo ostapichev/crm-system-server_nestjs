@@ -14,8 +14,6 @@ const repositories = [
 
 @Global()
 @Module({
-  imports: [],
-  controllers: [],
   providers: repositories,
   exports: repositories,
 })

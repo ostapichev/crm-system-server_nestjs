@@ -4,7 +4,7 @@ import { EntityManager } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities';
 import { OrderRepository } from '../../repository/services/order.repository';
-import { ListQueryDto } from '../dto/req/list-query.dto';
+import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
 import { UpdateOrderReqDto } from '../dto/req/update-car.dto';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class OrdersService {
   ) {}
 
   public async getListAllOrders(
-    query: ListQueryDto,
+    query: OrderListQueryDto,
   ): Promise<[OrderEntity[], number]> {
     return await this.orderRepository.getListAllOrders(query);
   }

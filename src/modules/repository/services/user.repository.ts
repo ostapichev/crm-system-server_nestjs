@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 
 import { UserEntity } from '../../../database/entities';
-import { ListQueryDto } from '../../orders/dto/req/list-query.dto';
+import { UserListQueryDto } from '../../auth/dto/req/user-list-query.dto';
 
 @Injectable()
 export class UserRepository extends Repository<UserEntity> {
@@ -11,10 +11,10 @@ export class UserRepository extends Repository<UserEntity> {
   }
 
   public async getListAllUsers(
-    query: ListQueryDto,
+    query: UserListQueryDto,
   ): Promise<[UserEntity[], number]> {
     const qb = this.createQueryBuilder('user');
-    qb.andWhere('user.role != :role', { role: 'superuser' });
+    qb.andWhere('user.role != :role', { role: 'admin' });
     if (query.search) {
       qb.andWhere('CONCAT(user.name, user.email) ILIKE :search');
       qb.setParameter('search', `%${query.search}%`);

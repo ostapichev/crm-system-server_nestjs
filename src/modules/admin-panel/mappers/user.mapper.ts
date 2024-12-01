@@ -1,7 +1,7 @@
 import { UserEntity } from '../../../database/entities';
+import { UserListQueryDto } from '../../auth/dto/req/user-list-query.dto';
 import { IJwtPayload } from '../../auth/interfaces/jwt-payload.interface';
 import { IUserData } from '../../auth/interfaces/user-data.interface';
-import { ListQueryDto } from '../../orders/dto/req/list-query.dto';
 import { UserResItemDto } from '../dto/res/user.item.res.dto';
 import { UserResDto } from '../dto/res/user.res.dto';
 import { UserResPublicDto } from '../dto/res/user.res-public.dto';
@@ -11,7 +11,7 @@ export class UserMapper {
   public static toResponseListDTO(
     entities: UserEntity[],
     total: number,
-    query: ListQueryDto,
+    query: UserListQueryDto,
   ): UserListResDto {
     return {
       data: entities.map(this.toResponseDTO),
@@ -41,7 +41,6 @@ export class UserMapper {
       role: data.role,
       is_active: true,
       created_at: data.created_at,
-      last_login: data.last_login,
     };
   }
 
@@ -54,7 +53,6 @@ export class UserMapper {
       role: data.role,
       is_active: true,
       created_at: data.created_at,
-      last_login: data.last_login,
     };
   }
 
@@ -66,7 +64,6 @@ export class UserMapper {
       email: user.email,
       role: user.role,
       is_active: true,
-      last_login: user.last_login,
     };
   }
 }

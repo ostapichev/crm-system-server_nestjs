@@ -5,7 +5,7 @@ import { TransformHelper } from '../../../../common';
 import { OrderColumnsEnum } from '../../enums/column.enum';
 import { OrderByEnum } from '../../enums/order-by.enum';
 
-export class ListQueryDto {
+export class OrderListQueryDto {
   @IsInt()
   @Max(100)
   @Min(1)

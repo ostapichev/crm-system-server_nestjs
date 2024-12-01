@@ -7,7 +7,7 @@ import {
 
 import { UserEntity } from '../../../database/entities';
 import { UserRoleEnum } from '../../../database/enums';
-import { ListQueryDto } from '../../orders/dto/req/list-query.dto';
+import { UserListQueryDto } from '../../auth/dto/req/user-list-query.dto';
 import { UserRepository } from '../../repository/services/user.repository';
 
 @Injectable()
@@ -15,9 +15,17 @@ export class AdminPanelService {
   constructor(private readonly userRepository: UserRepository) {}
 
   public async findAllUsers(
-    query: ListQueryDto,
+    query: UserListQueryDto,
   ): Promise<[UserEntity[], number]> {
     return await this.userRepository.getListAllUsers(query);
+  }
+
+  public async findOne(userId: number): Promise<UserEntity> {
+    const user = await this.userRepository.getByIdUser(userId);
+    if (!user || user.role === UserRoleEnum.ADMIN) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+    return user;
   }
 
   public async banUser(userId: number): Promise<void> {
