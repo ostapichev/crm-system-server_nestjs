@@ -20,7 +20,7 @@ export class UserEntity extends CreateUpdateModel {
   @Column('text', { select: false })
   password: string;
 
-  @Column({ length: 10, default: UserRoleEnum.USER })
+  @Column({ length: 10, default: UserRoleEnum.MANAGER })
   role: UserRoleEnum;
 
   @Column('boolean', { default: false })

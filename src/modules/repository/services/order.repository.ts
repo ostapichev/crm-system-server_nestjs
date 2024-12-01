@@ -36,10 +36,10 @@ export class OrderRepository extends Repository<OrderEntity> {
     qb: SelectQueryBuilder<OrderEntity>,
     query: ListQueryDto,
   ): Promise<[OrderEntity[], number]> {
-    qb.leftJoinAndSelect('order.manager', 'manager');
-    qb.orderBy('order.created_at', 'DESC');
-    qb.take(query.limit);
-    qb.skip((query.page - 1) * query.limit);
+    const { limit, sorting_by, order_by } = query;
+    qb.orderBy(`order.${sorting_by}`, order_by);
+    qb.take(limit);
+    qb.skip((query.page - 1) * limit);
     return await qb.getManyAndCount();
   }
 }

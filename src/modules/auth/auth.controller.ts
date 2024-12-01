@@ -1,15 +1,22 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
-  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
-import { BaseResDto } from '../admin-panel/dto/res/base-res.dto';
+import { UserResDto } from '../admin-panel/dto/res/user.res.dto';
+import { UserMapper } from '../admin-panel/mappers/user.mapper';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { SkipAuth } from './decorators/skip-auth.decorator';
 import { SignInReqDto } from './dto/req/sign-in.req.dto';
@@ -24,20 +31,21 @@ import { AuthService } from './services/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ description: 'Activation user by access token' })
-  @SkipAuth()
-  @Post('activate/:accessToken')
-  public async activateUser(
-    @Param('accessToken') accessToken: string,
-  ): Promise<BaseResDto> {
-    return await this.authService.activateUser(accessToken);
-  }
-
   @ApiOperation({ description: 'Login user' })
   @SkipAuth()
   @Post('sign-in')
   public async signIn(@Body() dto: SignInReqDto): Promise<AuthResDto> {
     return await this.authService.signIn(dto);
+  }
+
+  @ApiOperation({ description: 'Get me data' })
+  @ApiBearerAuth()
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @Get('me')
+  public async findMe(@CurrentUser() userData: IUserData): Promise<UserResDto> {
+    const result = await this.authService.findMe(userData);
+    return UserMapper.toResponseDTO(result);
   }
 
   @ApiOperation({ description: 'Post refresh token for get new tokens' })

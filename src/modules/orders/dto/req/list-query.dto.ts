@@ -1,7 +1,9 @@
 import { Transform, Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 import { TransformHelper } from '../../../../common';
+import { OrderColumnsEnum } from '../../enums/column.enum';
+import { OrderByEnum } from '../../enums/order-by.enum';
 
 export class ListQueryDto {
   @IsInt()
@@ -23,4 +25,18 @@ export class ListQueryDto {
   @IsOptional()
   @Type(() => String)
   search?: string;
+
+  @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toUpperCase)
+  @IsEnum(OrderByEnum)
+  @IsOptional()
+  @Type(() => IsEnum)
+  order_by?: OrderByEnum = OrderByEnum.DESC;
+
+  @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toLowerCase)
+  @IsEnum(OrderColumnsEnum)
+  @IsOptional()
+  @Type(() => IsEnum)
+  sorting_by?: OrderColumnsEnum = OrderColumnsEnum.ID;
 }

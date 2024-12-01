@@ -4,24 +4,15 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectEntityManager } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
 
-import { RefreshTokenEntity, UserEntity } from '../../../database/entities';
+import { UserEntity } from '../../../database/entities';
 import { UserRoleEnum } from '../../../database/enums';
-import { IUserData } from '../../auth/interfaces/user-data.interface';
-import { AuthCacheService } from '../../auth/services/auth-cache.service';
 import { ListQueryDto } from '../../orders/dto/req/list-query.dto';
 import { UserRepository } from '../../repository/services/user.repository';
 
 @Injectable()
 export class AdminPanelService {
-  constructor(
-    @InjectEntityManager()
-    private readonly entityManager: EntityManager,
-    private readonly userRepository: UserRepository,
-    private readonly authCashService: AuthCacheService,
-  ) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   public async findAllUsers(
     query: ListQueryDto,
@@ -29,26 +20,20 @@ export class AdminPanelService {
     return await this.userRepository.getListAllUsers(query);
   }
 
-  public async banUser(userId: number, userData: IUserData): Promise<void> {
-    await this.entityManager.transaction('SERIALIZABLE', async (em) => {
-      const user = await this.getUser(userId);
-      const userRepository = em.getRepository(UserEntity);
-      const refreshTokenRepository = em.getRepository(RefreshTokenEntity);
-      if (user.role === UserRoleEnum.SUPERUSER) {
-        throw new ForbiddenException('You do not have permissions!');
-      }
-      if (!user.is_active) {
-        throw new BadRequestException('The user is banned!');
-      }
-      await userRepository.update(userId, {
-        is_active: false,
-      });
-      await this.authCashService.deleteToken(userId);
-      await refreshTokenRepository.delete({ user_id: userId });
+  public async banUser(userId: number): Promise<void> {
+    const user = await this.getUser(userId);
+    if (user.role === UserRoleEnum.ADMIN) {
+      throw new ForbiddenException('You do not have permissions!');
+    }
+    if (!user.is_active) {
+      throw new BadRequestException('The user is banned!');
+    }
+    await this.userRepository.update(userId, {
+      is_active: false,
     });
   }
 
-  public async unbanUser(userId: number, userData: IUserData): Promise<void> {
+  public async unbanUser(userId: number): Promise<void> {
     const user = await this.getUser(userId);
     if (user.is_active) {
       throw new BadRequestException('The user is active!');

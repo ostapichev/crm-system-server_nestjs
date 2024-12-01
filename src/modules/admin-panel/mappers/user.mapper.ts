@@ -1,11 +1,11 @@
 import { UserEntity } from '../../../database/entities';
-import { UserListResDto } from '../../admin-panel/dto/res/user-list.res.dto';
 import { IJwtPayload } from '../../auth/interfaces/jwt-payload.interface';
 import { IUserData } from '../../auth/interfaces/user-data.interface';
 import { ListQueryDto } from '../../orders/dto/req/list-query.dto';
 import { UserResItemDto } from '../dto/res/user.item.res.dto';
 import { UserResDto } from '../dto/res/user.res.dto';
 import { UserResPublicDto } from '../dto/res/user.res-public.dto';
+import { UserListResDto } from '../dto/res/user-list.res.dto';
 
 export class UserMapper {
   public static toResponseListDTO(

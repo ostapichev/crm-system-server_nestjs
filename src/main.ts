@@ -4,8 +4,8 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppConfig } from './config';
+import { SuperUserService } from './modules/admin-panel/services/super-user.service';
 import { AppModule } from './modules/app.module';
-import { SuperUserService } from './modules/users/services/super-user.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });

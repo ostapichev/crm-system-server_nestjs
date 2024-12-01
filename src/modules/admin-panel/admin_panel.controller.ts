@@ -17,16 +17,14 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { SignUpReqDto } from '../auth/dto/req/sign-up.req.dto';
 import { AuthResDto } from '../auth/dto/res/auth.res.dto';
-import { IUserData } from '../auth/interfaces/user-data.interface';
 import { AuthService } from '../auth/services/auth.service';
 import { ListQueryDto } from '../orders/dto/req/list-query.dto';
-import { UserMapper } from '../users/services/user.mapper';
 import { UserListResDto } from './dto/res/user-list.res.dto';
 import { AdminGuard } from './guards/admin.guard';
 import { IdMeGuard } from './guards/id-me.guard';
+import { UserMapper } from './mappers/user.mapper';
 import { AdminPanelService } from './services/admin_panel.service';
 
 @ApiBearerAuth()
@@ -62,11 +60,8 @@ export class AdminPanelController {
   @UseGuards(AdminGuard, IdMeGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch('ban/:userId')
-  public async banUser(
-    @Param('userId') userId: number,
-    @CurrentUser() userData: IUserData,
-  ): Promise<void> {
-    await this.adminPanelService.banUser(userId, userData);
+  public async banUser(@Param('userId') userId: number): Promise<void> {
+    await this.adminPanelService.banUser(userId);
   }
 
   @ApiOperation({ description: 'Unban user by id' })
@@ -74,10 +69,7 @@ export class AdminPanelController {
   @UseGuards(AdminGuard, IdMeGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch('unban/:userId')
-  public async unbanUser(
-    @Param('userId') userId: number,
-    @CurrentUser() userData: IUserData,
-  ): Promise<void> {
-    await this.adminPanelService.unbanUser(userId, userData);
+  public async unbanUser(@Param('userId') userId: number): Promise<void> {
+    await this.adminPanelService.unbanUser(userId);
   }
 }

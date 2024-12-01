@@ -16,7 +16,7 @@ export class SuperUserService {
 
   public async createSuperUser(): Promise<UserEntity> {
     const user = await this.userRepository.findOneBy({
-      role: UserRoleEnum.SUPERUSER,
+      role: UserRoleEnum.ADMIN,
     });
     if (!user) {
       const config = this.configService.get<SuperUserConfig>('superuser');
@@ -26,7 +26,7 @@ export class SuperUserService {
         surname: config.surname,
         email: config.email,
         password: password,
-        role: UserRoleEnum.SUPERUSER,
+        role: UserRoleEnum.ADMIN,
         is_active: true,
       });
       Logger.log('Super user created!');

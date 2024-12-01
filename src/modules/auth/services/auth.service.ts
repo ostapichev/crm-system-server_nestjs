@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   UnauthorizedException,
@@ -11,11 +10,9 @@ import { EntityManager } from 'typeorm';
 
 import { Config, SuperUserConfig } from '../../../config';
 import { RefreshTokenEntity, UserEntity } from '../../../database/entities';
-import { TokenType } from '../../../database/enums';
-import { BaseResDto } from '../../admin-panel/dto/res/base-res.dto';
+import { UserMapper } from '../../admin-panel/mappers/user.mapper';
 import { RefreshTokenRepository } from '../../repository/services/refresh-token.repository';
 import { UserRepository } from '../../repository/services/user.repository';
-import { UserMapper } from '../../users/services/user.mapper';
 import { SignInReqDto } from '../dto/req/sign-in.req.dto';
 import { SignUpReqDto } from '../dto/req/sign-up.req.dto';
 import { AuthResDto } from '../dto/res/auth.res.dto';
@@ -53,58 +50,43 @@ export class AuthService {
     );
   }
 
-  public async activateUser(accessToken: string): Promise<BaseResDto> {
-    return await this.entityManager.transaction('SERIALIZABLE', async (em) => {
-      const userRepository = em.getRepository(UserEntity);
-      const payload = await this.tokenService.verifyToken(
-        accessToken,
-        TokenType.ACCESS,
-      );
-      const { userId } = payload;
-      const isAccessTokenExist = await this.authCacheService.isAccessTokenExist(
-        userId,
-        accessToken,
-      );
-      const user = await this.userRepository.findOne({
-        where: { id: userId },
-      });
-      if (!payload) {
-        throw new BadRequestException('The token is not valid!');
-      }
-      if (!user || !isAccessTokenExist) {
-        throw new BadRequestException('Invalid user data!');
-      }
-      await userRepository.update(userId, {
-        is_active: true,
-      });
-      return { message: 'Activation is successful!' };
-    });
+  public async signIn(dto: SignInReqDto): Promise<AuthResDto> {
+    return await this.entityManager.transaction(
+      'REPEATABLE READ',
+      async (em) => {
+        const user = await this.userRepository.findOne({
+          where: { email: dto.email },
+          select: { id: true, password: true, is_active: true },
+        });
+        if (!user || !user.is_active) {
+          throw new UnauthorizedException('Invalid password or email');
+        }
+        const isPasswordValid = await bcrypt.compare(
+          dto.password,
+          user.password,
+        );
+        if (!isPasswordValid) {
+          throw new UnauthorizedException('Invalid password or email');
+        }
+        const tokens = await this.createTokens(user.id, em);
+        const userEntity = await this.userRepository.findOneBy({ id: user.id });
+        return { user: UserMapper.toResponseItemDTO(userEntity), tokens };
+      },
+    );
   }
 
-  public async signIn(dto: SignInReqDto): Promise<AuthResDto> {
-    return await this.entityManager.transaction('SERIALIZABLE', async (em) => {
-      const user = await this.userRepository.findOne({
-        where: { email: dto.email },
-        select: { id: true, password: true, is_active: true },
-      });
-      if (!user || !user.is_active) {
-        throw new UnauthorizedException('Invalid password or email');
-      }
-      const isPasswordValid = await bcrypt.compare(dto.password, user.password);
-      if (!isPasswordValid) {
-        throw new UnauthorizedException('Invalid password or email');
-      }
-      const tokens = await this.createTokens(user.id, em);
-      const userEntity = await this.userRepository.findOneBy({ id: user.id });
-      return { user: UserMapper.toResponseItemDTO(userEntity), tokens };
-    });
+  public async findMe(userData: IUserData): Promise<UserEntity> {
+    return await this.userRepository.getByIdUser(userData.userId);
   }
 
   public async refresh(userData: IUserData): Promise<TokenPairResDto> {
-    return await this.entityManager.transaction('SERIALIZABLE', async (em) => {
-      await this.deleteRefreshToken(userData);
-      return await this.createTokens(userData.userId, em);
-    });
+    return await this.entityManager.transaction(
+      'REPEATABLE READ',
+      async (em) => {
+        await this.deleteRefreshToken(userData);
+        return await this.createTokens(userData.userId, em);
+      },
+    );
   }
 
   public async signOut(userData: IUserData): Promise<void> {
