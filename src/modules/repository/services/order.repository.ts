@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   DataSource,
   EntityManager,
@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities';
+import { columns } from '../../constants/columns';
 import { OrderListQueryDto } from '../../orders/dto/req/order-list-query.dto';
 
 @Injectable()
@@ -36,10 +37,14 @@ export class OrderRepository extends Repository<OrderEntity> {
     qb: SelectQueryBuilder<OrderEntity>,
     query: OrderListQueryDto,
   ): Promise<[OrderEntity[], number]> {
-    const { limit, sorting_by, order_by } = query;
-    qb.orderBy(`order.${sorting_by}`, order_by);
-    qb.take(limit);
-    qb.skip((query.page - 1) * limit);
+    const { limit, sorting_by, page } = query;
+    const isDescending = sorting_by.startsWith('-');
+    const column = isDescending ? sorting_by.slice(1) : sorting_by;
+    if (!columns.includes(column)) {
+      throw new BadRequestException(`Unsupported sorting by '${sorting_by}'`);
+    }
+    qb.orderBy(`order.${column}`, isDescending ? 'DESC' : 'ASC');
+    qb.take(limit).skip((page - 1) * limit);
     return await qb.getManyAndCount();
   }
 }

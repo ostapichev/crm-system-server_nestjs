@@ -15,9 +15,9 @@ import { TransformHelper } from '../../../../common';
 import { GroupEntity } from '../../../../database/entities';
 import {
   CourseEnum,
-  FormatEnum,
+  CourseFormatEnum,
+  CourseTypeEnum,
   StatusEnum,
-  TypeEnum,
 } from '../../../../database/enums';
 
 export class BaseOrderReqDto {
@@ -84,13 +84,13 @@ export class BaseOrderReqDto {
   @Type(() => IsEnum)
   course?: CourseEnum;
 
-  @ApiProperty({ example: FormatEnum.ONLINE })
-  @IsEnum(FormatEnum)
+  @ApiProperty({ example: CourseFormatEnum.ONLINE })
+  @IsEnum(CourseFormatEnum)
   @Type(() => IsEnum)
-  format?: FormatEnum;
+  format?: CourseFormatEnum;
 
-  @ApiProperty({ example: TypeEnum.VIP })
-  @IsEnum(TypeEnum)
+  @ApiProperty({ example: CourseTypeEnum.VIP })
+  @IsEnum(CourseTypeEnum)
   @Type(() => IsEnum)
-  type?: TypeEnum;
+  type?: CourseTypeEnum;
 }

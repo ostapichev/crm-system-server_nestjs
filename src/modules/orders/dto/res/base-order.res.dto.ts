@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import {
   CourseEnum,
-  FormatEnum,
+  CourseFormatEnum,
+  CourseTypeEnum,
   StatusEnum,
-  TypeEnum,
 } from '../../../../database/enums';
 
 export class BaseOrderResDto {
@@ -75,13 +75,13 @@ export class BaseOrderResDto {
   course: string;
 
   @ApiProperty({
-    example: FormatEnum.ONLINE,
+    example: CourseFormatEnum.ONLINE,
     description: 'course format',
   })
   course_format: string;
 
   @ApiProperty({
-    example: TypeEnum.VIP,
+    example: CourseTypeEnum.VIP,
     description: 'course type',
   })
   type: string;

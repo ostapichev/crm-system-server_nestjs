@@ -2,10 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import {
   CourseEnum,
-  FormatEnum,
+  CourseFormatEnum,
+  CourseTypeEnum,
   StatusEnum,
   TableNameEnum,
-  TypeEnum,
 } from '../enums';
 import { CommentsEntity } from './comments.entity';
 import { GroupEntity } from './group.entity';
@@ -33,10 +33,10 @@ export class OrderEntity extends CreateUpdateModel {
   course?: CourseEnum;
 
   @Column({ length: 15, nullable: true })
-  course_format?: FormatEnum;
+  course_format?: CourseFormatEnum;
 
   @Column({ length: 100, nullable: true })
-  course_type?: TypeEnum;
+  course_type?: CourseTypeEnum;
 
   @Column({ length: 15, nullable: true })
   status?: StatusEnum;

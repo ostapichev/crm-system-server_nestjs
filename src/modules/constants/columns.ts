@@ -1,0 +1,15 @@
+export const columns = [
+  'id',
+  'name',
+  'surname',
+  'phone',
+  'email',
+  'age',
+  'course',
+  'course_format',
+  'course_type',
+  'status',
+  'created_at',
+  'sum',
+  'alreadyPaid',
+];
