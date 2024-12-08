@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 import { TableNameEnum, UserRoleEnum } from '../enums';
@@ -23,7 +24,8 @@ export class UserEntity extends CreateUpdateModel {
   @Column({ length: 10, default: UserRoleEnum.MANAGER })
   role: UserRoleEnum;
 
-  @Column('boolean', { default: false })
+  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Transform(({ value }) => Boolean(value))
   is_active: boolean;
 
   @OneToMany(() => CommentsEntity, (entity) => entity.user)

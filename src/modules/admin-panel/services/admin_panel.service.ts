@@ -20,14 +20,6 @@ export class AdminPanelService {
     return await this.userRepository.getListAllUsers(query);
   }
 
-  public async findOne(userId: number): Promise<UserEntity> {
-    const user = await this.userRepository.getByIdUser(userId);
-    if (!user || user.role === UserRoleEnum.ADMIN) {
-      throw new NotFoundException(`User with id ${userId} not found`);
-    }
-    return user;
-  }
-
   public async banUser(userId: number): Promise<void> {
     const user = await this.getUser(userId);
     if (user.role === UserRoleEnum.ADMIN) {

@@ -16,12 +16,13 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { plainToInstance } from 'class-transformer';
 
+import { UserEntity } from '../../database/entities';
 import { SignUpReqDto } from '../auth/dto/req/sign-up.req.dto';
 import { UserListQueryDto } from '../auth/dto/req/user-list-query.dto';
 import { AuthResDto } from '../auth/dto/res/auth.res.dto';
 import { AuthService } from '../auth/services/auth.service';
-import { UserResPublicDto } from './dto/res/user.res-public.dto';
 import { UserListResDto } from './dto/res/user-list.res.dto';
 import { AdminGuard } from './guards/admin.guard';
 import { IdMeGuard } from './guards/id-me.guard';
@@ -45,26 +46,16 @@ export class AdminPanelController {
     @Query() query: UserListQueryDto,
   ): Promise<UserListResDto> {
     const [entities, total] = await this.adminPanelService.findAllUsers(query);
-    return UserMapper.toResponseListDTO(entities, total, query);
+    const users = plainToInstance(UserEntity, entities);
+    return UserMapper.toResponseListDTO(users, total, query);
   }
 
   @ApiOperation({ description: 'Create new user' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @UseGuards(AdminGuard)
-  @Post('create')
+  @Post()
   public async signUp(@Body() dto: SignUpReqDto): Promise<AuthResDto> {
     return await this.authService.signUp(dto);
-  }
-
-  @ApiOperation({ description: 'Get user by id' })
-  @ApiBearerAuth()
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  @Get(':userId')
-  public async findOne(
-    @Param('userId') userId: number,
-  ): Promise<UserResPublicDto> {
-    const result = await this.adminPanelService.findOne(userId);
-    return UserMapper.toResponsePublicDTO(result);
   }
 
   @ApiOperation({ description: 'Ban user by id' })
