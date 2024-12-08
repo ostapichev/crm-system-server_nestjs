@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities';
-import { columns } from '../../constants/columns';
+import { columns } from '../../orders/constants/columns';
 import { OrderListQueryDto } from '../../orders/dto/req/order-list-query.dto';
 
 @Injectable()
