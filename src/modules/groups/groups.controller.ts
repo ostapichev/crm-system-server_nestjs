@@ -8,8 +8,8 @@ import {
 
 import { BaseGroupReqDto } from './dto/req/base-group.req.dto';
 import { BaseGroupResDto } from './dto/res/base-group.res.dto';
-import { GroupsService } from './groups/groups.service';
 import { GroupMapper } from './mappers/group.mapper';
+import { GroupsService } from './services/groups.service';
 
 @ApiBearerAuth()
 @ApiTags('Groups')

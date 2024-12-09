@@ -20,6 +20,7 @@ import { OrderListResDto } from './dto/res/order-list.res.dto';
 import { OrderListItemResDto } from './dto/res/order-list-item.res.dto';
 import { OrderUpdateResDto } from './dto/res/order-update-res.dto';
 import { AuthorGuard } from './guards/author.guard';
+import { NumberGuard } from './guards/number.guard';
 import { OrderMapper } from './mappers/order.mapper';
 import { OrdersService } from './services/order.service';
 
@@ -42,6 +43,7 @@ export class OrdersController {
   @ApiOperation({ description: 'Get order by id.' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiBearerAuth()
+  @UseGuards(NumberGuard)
   @Get(':orderId')
   public async findOneOrder(
     @Param('orderId') orderId: number,

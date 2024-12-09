@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 
 import { GroupEntity } from '../../../database/entities';
 import { GroupRepository } from '../../repository/services/group.repository';
@@ -13,6 +13,14 @@ export class GroupsService {
   }
 
   public async addGroup(dto: BaseGroupReqDto): Promise<GroupEntity> {
+    await this.isGroupExistOrThrow(dto.name);
     return await this.groupRepository.save(dto);
+  }
+
+  private async isGroupExistOrThrow(name: string): Promise<void> {
+    const group = await this.groupRepository.findOneBy({ name });
+    if (group) {
+      throw new ConflictException('Group already exists');
+    }
   }
 }
