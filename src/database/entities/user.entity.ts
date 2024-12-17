@@ -2,7 +2,7 @@ import { Transform } from 'class-transformer';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 import { TableNameEnum, UserRoleEnum } from '../enums';
-import { CommentsEntity } from './comments.entity';
+import { CommentEntity } from './comment.entity';
 import { CreateUpdateModel } from './models';
 import { OrderEntity } from './order.entity';
 import { RefreshTokenEntity } from './refresh-token.entity';
@@ -28,8 +28,8 @@ export class UserEntity extends CreateUpdateModel {
   @Transform(({ value }) => Boolean(value))
   is_active: boolean;
 
-  @OneToMany(() => CommentsEntity, (entity) => entity.user)
-  comments?: CommentsEntity[];
+  @OneToMany(() => CommentEntity, (entity) => entity.user)
+  comments?: CommentEntity[];
 
   @OneToMany(() => OrderEntity, (entity) => entity.manager)
   orders?: OrderEntity[];

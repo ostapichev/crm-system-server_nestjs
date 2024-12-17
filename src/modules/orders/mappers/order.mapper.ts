@@ -37,6 +37,7 @@ export class OrderMapper {
       created_at: entity.created_at,
       group_id: entity.group_id,
       manager: entity.manager,
+      comments: entity.comments.map((comment) => comment),
       msg: entity.msg,
       utm: entity.utm,
     };

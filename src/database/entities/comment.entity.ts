@@ -6,14 +6,14 @@ import { OrderEntity } from './order.entity';
 import { UserEntity } from './user.entity';
 
 @Entity(TableNameEnum.COMMENTS)
-export class CommentsEntity extends CreateUpdateModel {
+export class CommentEntity extends CreateUpdateModel {
   @Column('text')
   text: string;
 
   @Column('bigint')
   order_id: number;
   @ManyToOne(() => OrderEntity, (entity) => entity.comments)
-  @JoinColumn({ name: 'comment_id' })
+  @JoinColumn({ name: 'order_id' })
   order: OrderEntity;
 
   @Column('bigint')

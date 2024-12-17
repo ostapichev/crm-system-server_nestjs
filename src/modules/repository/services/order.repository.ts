@@ -44,8 +44,9 @@ export class OrderRepository extends Repository<OrderEntity> {
       throw new BadRequestException(`Unsupported sorting by '${sorting_by}'`);
     }
     qb.orderBy(`order.${column}`, isDescending ? 'DESC' : 'ASC');
-    qb.leftJoinAndSelect('order.manager', 'users_auth');
     qb.leftJoinAndSelect('order.group', 'group');
+    qb.leftJoinAndSelect('order.manager', 'users_auth');
+    qb.leftJoinAndSelect('order.comments', 'comments');
     qb.take(limit).skip((page - 1) * limit);
     return await qb.getManyAndCount();
   }

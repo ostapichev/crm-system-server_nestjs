@@ -7,7 +7,7 @@ import {
   StatusEnum,
   TableNameEnum,
 } from '../enums';
-import { CommentsEntity } from './comments.entity';
+import { CommentEntity } from './comment.entity';
 import { GroupEntity } from './group.entity';
 import { CreateUpdateModel } from './models';
 import { UserEntity } from './user.entity';
@@ -65,6 +65,6 @@ export class OrderEntity extends CreateUpdateModel {
   @JoinColumn({ name: 'manager_id' })
   manager?: UserEntity;
 
-  @OneToMany(() => CommentsEntity, (entity) => entity.order)
-  comments?: CommentsEntity[];
+  @OneToMany(() => CommentEntity, (entity) => entity.order)
+  comments?: CommentEntity[];
 }

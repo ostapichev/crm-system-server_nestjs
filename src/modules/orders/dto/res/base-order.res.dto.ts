@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { UserEntity } from '../../../../database/entities';
+import { CommentEntity, UserEntity } from '../../../../database/entities';
 import {
   CourseEnum,
   CourseFormatEnum,
@@ -94,16 +94,21 @@ export class BaseOrderResDto {
   created_at: Date;
 
   @ApiProperty({
+    example: '4',
+    description: 'group id',
+  })
+  group_id: number;
+
+  @ApiProperty({
     example: '5',
     description: 'manager id',
   })
   manager: UserEntity;
 
   @ApiProperty({
-    example: '4',
-    description: 'group id',
+    description: 'comments',
   })
-  group_id: number;
+  comments: CommentEntity[];
 
   @ApiProperty({
     example: 'message',
