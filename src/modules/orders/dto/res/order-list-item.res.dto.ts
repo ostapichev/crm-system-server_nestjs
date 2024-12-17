@@ -16,6 +16,8 @@ export class OrderListItemResDto extends PickType(BaseOrderResDto, [
   'sum',
   'alreadyPaid',
   'created_at',
+  'manager',
+  'group_id',
   'msg',
   'utm',
 ]) {}

@@ -35,6 +35,8 @@ export class OrderMapper {
       sum: entity.sum,
       alreadyPaid: entity.alreadyPaid,
       created_at: entity.created_at,
+      group_id: entity.group_id,
+      manager: entity.manager,
       msg: entity.msg,
       utm: entity.utm,
     };

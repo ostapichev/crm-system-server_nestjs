@@ -9,7 +9,9 @@ export const columns = [
   'course_format',
   'course_type',
   'status',
-  'created_at',
   'sum',
   'alreadyPaid',
+  'created_at',
+  'group',
+  'manager',
 ];
