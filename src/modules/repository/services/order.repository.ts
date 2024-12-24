@@ -47,6 +47,7 @@ export class OrderRepository extends Repository<OrderEntity> {
     qb.leftJoinAndSelect('order.group', 'group');
     qb.leftJoinAndSelect('order.manager', 'users_auth');
     qb.leftJoinAndSelect('order.comments', 'comments');
+    qb.leftJoinAndSelect('comments.user', 'comment_user');
     qb.take(limit).skip((page - 1) * limit);
     return await qb.getManyAndCount();
   }

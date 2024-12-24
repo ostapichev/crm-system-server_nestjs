@@ -1,4 +1,4 @@
-import { OrderEntity } from '../../../database/entities';
+import { CommentEntity, OrderEntity } from '../../../database/entities';
 import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
 import { OrderResDto } from '../dto/res/order.res.dto';
 import { OrderListResDto } from '../dto/res/order-list.res.dto';
@@ -37,7 +37,13 @@ export class OrderMapper {
       created_at: entity.created_at,
       group_id: entity.group_id,
       manager: entity.manager,
-      comments: entity.comments.map((comment) => comment),
+      comments: entity.comments
+        .sort(
+          (item_1, item_2) =>
+            new Date(item_2.created_at).getTime() -
+            new Date(item_1.created_at).getTime(),
+        )
+        .map((comment: CommentEntity) => comment),
       msg: entity.msg,
       utm: entity.utm,
     };
