@@ -8,7 +8,7 @@ export class GroupMapper {
 
   public static toResponseListItemDTO(entity: GroupEntity): BaseGroupResDto {
     return {
-      id: entity.id,
+      id: Number(entity.id),
       name: entity.name,
     };
   }

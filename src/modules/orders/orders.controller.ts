@@ -19,8 +19,8 @@ import { UpdateOrderReqDto } from './dto/req/update-order.req.dto';
 import { OrderListResDto } from './dto/res/order-list.res.dto';
 import { OrderListItemResDto } from './dto/res/order-list-item.res.dto';
 import { OrderUpdateResDto } from './dto/res/order-update-res.dto';
-import { AuthorGuard } from './guards/author.guard';
 import { NumberGuard } from './guards/number.guard';
+import { OwnerGuard } from './guards/owner.guard';
 import { OrderMapper } from './mappers/order.mapper';
 import { OrdersService } from './services/order.service';
 
@@ -55,7 +55,7 @@ export class OrdersController {
   @ApiOperation({ description: 'Update order by id' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiBearerAuth()
-  @UseGuards(AuthorGuard)
+  @UseGuards(OwnerGuard)
   @Patch(':orderId')
   public async update(
     @Param('orderId') orderId: number,

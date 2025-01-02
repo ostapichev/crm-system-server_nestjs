@@ -26,28 +26,28 @@ export class BaseOrderReqDto {
 
   @ApiProperty({ example: 'John' })
   @IsString()
-  @Length(3, 25)
+  @Length(0, 25)
   @Transform(TransformHelper.trim)
   @Type(() => String)
   name?: string;
 
   @ApiProperty({ example: 'Smith' })
   @IsString()
-  @Length(3, 25)
+  @Length(0, 25)
   @Transform(TransformHelper.trim)
   @Type(() => String)
   surname?: string;
 
   @ApiProperty({ example: 'smith@mail.net' })
   @IsEmail()
-  @Length(5, 100)
+  @Length(0, 100)
   @Transform(TransformHelper.trim)
   @Type(() => IsEmail)
   email?: string;
 
   @ApiProperty({ example: '380981234567' })
   @IsString()
-  @Length(12)
+  @Length(0, 12)
   @Transform(TransformHelper.trim)
   @Type(() => String)
   phone?: string;

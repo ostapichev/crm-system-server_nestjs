@@ -9,7 +9,7 @@ import { OrderEntity } from '../../../database/entities';
 import { OrderRepository } from '../../repository/services/order.repository';
 
 @Injectable()
-export class AuthorGuard implements CanActivate {
+export class OwnerGuard implements CanActivate {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -23,6 +23,6 @@ export class AuthorGuard implements CanActivate {
         throw new NotFoundException('Order not found!');
       }
     }
-    return order.manager_id === userId;
+    return order.manager_id === userId || !order.manager_id;
   }
 }
