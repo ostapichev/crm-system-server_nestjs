@@ -12,6 +12,10 @@ export class GroupsService {
     return await this.groupRepository.find();
   }
 
+  public async getGroupById(groupId: number): Promise<GroupEntity> {
+    return await this.groupRepository.findOneBy({ id: groupId });
+  }
+
   public async addGroup(dto: BaseGroupReqDto): Promise<GroupEntity> {
     await this.isGroupExistOrThrow(dto.name);
     return await this.groupRepository.save(dto);

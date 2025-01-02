@@ -30,6 +30,9 @@ export class OrderRepository extends Repository<OrderEntity> {
     const repo = em ? em.getRepository(OrderEntity) : this;
     const qb = repo.createQueryBuilder('order');
     qb.where('order.id = :orderId', { orderId });
+    qb.leftJoinAndSelect('order.manager', 'users_auth');
+    qb.leftJoinAndSelect('order.comments', 'comments');
+    qb.leftJoinAndSelect('comments.user', 'comment_user');
     return await qb.getOne();
   }
 

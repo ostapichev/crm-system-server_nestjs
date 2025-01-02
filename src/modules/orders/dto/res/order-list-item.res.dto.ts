@@ -11,7 +11,7 @@ export class OrderListItemResDto extends PickType(BaseOrderResDto, [
   'age',
   'course',
   'course_format',
-  'type',
+  'course_type',
   'status',
   'sum',
   'alreadyPaid',

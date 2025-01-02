@@ -15,7 +15,7 @@ import {
 } from '@nestjs/swagger';
 
 import { OrderListQueryDto } from './dto/req/order-list-query.dto';
-import { UpdateOrderReqDto } from './dto/req/update-car.dto';
+import { UpdateOrderReqDto } from './dto/req/update-order.req.dto';
 import { OrderListResDto } from './dto/res/order-list.res.dto';
 import { OrderListItemResDto } from './dto/res/order-list-item.res.dto';
 import { OrderUpdateResDto } from './dto/res/order-update-res.dto';

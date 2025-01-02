@@ -22,20 +22,20 @@ export class OrderMapper {
     entity: OrderEntity,
   ): OrderListItemResDto {
     return {
-      id: entity.id,
+      id: Number(entity.id),
       name: entity.name,
       surname: entity.surname,
       email: entity.email,
       phone: entity.phone,
-      age: entity.age,
+      age: Number(entity.age),
       course: entity.course,
       course_format: entity.course_format,
-      type: entity.course_type,
+      course_type: entity.course_type,
       status: entity.status,
-      sum: entity.sum,
-      alreadyPaid: entity.alreadyPaid,
+      sum: Number(entity.sum),
+      alreadyPaid: Number(entity.alreadyPaid),
       created_at: entity.created_at,
-      group_id: entity.group_id,
+      group_id: Number(entity.group_id),
       manager: entity.manager,
       comments: entity.comments
         .sort(
@@ -65,18 +65,18 @@ export class OrderMapper {
   public static toResponseUpdateDTO(entity: OrderEntity): OrderUpdateResDto {
     return {
       id: entity.id,
+      group: Number(entity.group_id),
       name: entity.name,
       surname: entity.surname,
       email: entity.email,
       phone: entity.phone,
+      age: Number(entity.age),
       course: entity.course,
       course_format: entity.course_format,
-      type: entity.course_type,
+      course_type: entity.course_type,
       status: entity.status,
-      sum: entity.sum,
-      alreadyPaid: entity.alreadyPaid,
-      msg: entity.msg,
-      utm: entity.utm,
+      sum: Number(entity.sum),
+      alreadyPaid: Number(entity.alreadyPaid),
     };
   }
 }

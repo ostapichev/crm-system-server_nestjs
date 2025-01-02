@@ -19,7 +19,7 @@ export class BaseOrderResDto {
     example: 'dec-2022',
     description: 'group',
   })
-  group: string;
+  group: number;
 
   @ApiProperty({
     example: 'John',
@@ -85,7 +85,7 @@ export class BaseOrderResDto {
     example: CourseTypeEnum.VIP,
     description: 'course type',
   })
-  type: string;
+  course_type: string;
 
   @ApiProperty({
     example: new Date(),
@@ -113,10 +113,10 @@ export class BaseOrderResDto {
   @ApiProperty({
     example: 'message',
   })
-  msg: string;
+  msg?: string;
 
   @ApiProperty({
     example: 'utm',
   })
-  utm: string;
+  utm?: string;
 }

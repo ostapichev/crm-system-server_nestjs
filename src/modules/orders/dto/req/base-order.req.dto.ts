@@ -9,10 +9,8 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { Entity } from 'typeorm';
 
 import { TransformHelper } from '../../../../common';
-import { GroupEntity } from '../../../../database/entities';
 import {
   CourseEnum,
   CourseFormatEnum,
@@ -22,8 +20,9 @@ import {
 
 export class BaseOrderReqDto {
   @ApiProperty({ example: 1 })
-  @Type(() => Entity)
-  group?: GroupEntity;
+  @IsNumber()
+  @Type(() => Number)
+  group_id?: number;
 
   @ApiProperty({ example: 'John' })
   @IsString()
@@ -87,10 +86,10 @@ export class BaseOrderReqDto {
   @ApiProperty({ example: CourseFormatEnum.ONLINE })
   @IsEnum(CourseFormatEnum)
   @Type(() => IsEnum)
-  format?: CourseFormatEnum;
+  course_format?: CourseFormatEnum;
 
   @ApiProperty({ example: CourseTypeEnum.VIP })
   @IsEnum(CourseTypeEnum)
   @Type(() => IsEnum)
-  type?: CourseTypeEnum;
+  course_type?: CourseTypeEnum;
 }
