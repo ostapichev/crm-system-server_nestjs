@@ -4,10 +4,8 @@ import {
   IsEmail,
   IsEnum,
   IsNumber,
+  IsOptional,
   IsString,
-  Length,
-  Max,
-  Min,
 } from 'class-validator';
 
 import { TransformHelper } from '../../../../common';
@@ -21,75 +19,77 @@ import {
 export class BaseOrderReqDto {
   @ApiProperty({ example: 1 })
   @IsNumber()
+  @IsOptional()
   @Type(() => Number)
   group_id?: number;
 
   @ApiProperty({ example: 'John' })
   @IsString()
-  @Length(0, 25)
+  @IsOptional()
   @Transform(TransformHelper.trim)
   @Type(() => String)
   name?: string;
 
   @ApiProperty({ example: 'Smith' })
   @IsString()
-  @Length(0, 25)
+  @IsOptional()
   @Transform(TransformHelper.trim)
   @Type(() => String)
   surname?: string;
 
   @ApiProperty({ example: 'smith@mail.net' })
   @IsEmail()
-  @Length(0, 100)
+  @IsOptional()
   @Transform(TransformHelper.trim)
   @Type(() => IsEmail)
   email?: string;
 
   @ApiProperty({ example: '380981234567' })
   @IsString()
-  @Length(0, 12)
+  @IsOptional()
   @Transform(TransformHelper.trim)
   @Type(() => String)
   phone?: string;
 
   @ApiProperty({ example: 20 })
   @IsNumber()
-  @Min(14)
-  @Max(70)
+  @IsOptional()
   @Type(() => Number)
   age?: number;
 
   @ApiProperty({ example: 20000 })
   @IsEnum(StatusEnum)
+  @IsOptional()
   @Type(() => IsEnum)
   status?: StatusEnum;
 
   @ApiProperty({ example: 50000 })
   @IsNumber()
-  @Min(1)
-  @Max(1000000)
+  @IsOptional()
   @Type(() => Number)
   sum?: number;
 
   @ApiProperty({ example: 50000 })
   @IsNumber()
-  @Min(1)
-  @Max(1000000)
+  @IsOptional()
   @Type(() => Number)
   alreadyPaid?: number;
 
   @ApiProperty({ example: CourseEnum.PCX })
   @IsEnum(CourseEnum)
+  @IsOptional()
   @Type(() => IsEnum)
   course?: CourseEnum;
 
   @ApiProperty({ example: CourseFormatEnum.ONLINE })
   @IsEnum(CourseFormatEnum)
+  @IsOptional()
   @Type(() => IsEnum)
   course_format?: CourseFormatEnum;
 
   @ApiProperty({ example: CourseTypeEnum.VIP })
   @IsEnum(CourseTypeEnum)
+  @IsOptional()
   @Type(() => IsEnum)
   course_type?: CourseTypeEnum;
 }

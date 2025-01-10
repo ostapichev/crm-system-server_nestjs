@@ -11,5 +11,5 @@ export class BaseGroupReqDto {
   @Transform(TransformHelper.trim)
   @Transform(TransformHelper.toLowerCase)
   @Type(() => String)
-  name: string;
+  name?: string;
 }

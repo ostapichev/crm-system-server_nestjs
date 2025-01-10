@@ -7,6 +7,7 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities';
+import { StatusEnum } from '../../../database/enums';
 import { GroupsService } from '../../groups/services/groups.service';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
@@ -39,6 +40,12 @@ export class OrdersService {
     const group = await this.groupsService.getGroupById(dto.group_id);
     if (!group) {
       throw new BadRequestException();
+    }
+    if (dto.status === StatusEnum.NEW) {
+      order.manager_id = null;
+      order.manager = null;
+      this.orderRepository.merge(order, dto);
+      return await this.orderRepository.save(order);
     }
     this.orderRepository.merge(order, dto);
     return await this.orderRepository.save(order);

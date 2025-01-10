@@ -24,7 +24,6 @@ export class OrderListQueryDto {
   search?: string;
 
   @Transform(TransformHelper.trim)
-  @Transform(TransformHelper.toLowerCase)
   @IsString()
   @Type(() => String)
   sorting_by: string = '-id';
