@@ -43,7 +43,7 @@ export class AdminPanelService {
     });
   }
 
-  private async getUser(userId: number): Promise<UserEntity> {
+  public async getUser(userId: number): Promise<UserEntity> {
     const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) {
       throw new NotFoundException(`User with id ${userId} not found`);

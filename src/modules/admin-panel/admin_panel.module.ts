@@ -10,5 +10,6 @@ import { SuperUserService } from './services/super-user.service';
   imports: [RepositoryModule, AuthModule],
   controllers: [AdminPanelController],
   providers: [AdminPanelService, SuperUserService],
+  exports: [AdminPanelService],
 })
 export class AdminPanelModule {}

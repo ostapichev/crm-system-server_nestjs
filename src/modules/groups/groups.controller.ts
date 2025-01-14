@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -19,14 +19,27 @@ export class GroupsController {
 
   @ApiOperation({ description: 'get all groups' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @Get()
   public async getGroups(): Promise<BaseGroupResDto[]> {
     const entities = await this.groupsService.getGroups();
     return GroupMapper.toResponseListDTO(entities);
   }
 
+  @ApiOperation({ description: 'get a group by id' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Get(':groupId')
+  public async getGroupById(
+    @Param('groupId') groupId: number,
+  ): Promise<BaseGroupResDto> {
+    const result = await this.groupsService.getGroupById(groupId);
+    return GroupMapper.toResponseItemDTO(result);
+  }
+
   @ApiOperation({ description: 'Create group' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @Post()
   public async addGroup(
     @Body() dto: BaseGroupReqDto,

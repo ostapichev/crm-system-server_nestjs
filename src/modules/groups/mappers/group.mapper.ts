@@ -12,4 +12,11 @@ export class GroupMapper {
       name: entity?.name,
     };
   }
+
+  public static toResponseItemDTO(entity: GroupEntity): BaseGroupResDto {
+    return {
+      id: Number(entity.id),
+      name: entity.name,
+    };
+  }
 }
