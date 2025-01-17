@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import {
+  Brackets,
   DataSource,
   EntityManager,
   Repository,
@@ -40,11 +41,113 @@ export class OrderRepository extends Repository<OrderEntity> {
     qb: SelectQueryBuilder<OrderEntity>,
     query: OrderListQueryDto,
   ): Promise<[OrderEntity[], number]> {
-    const { limit, sorting_by, page } = query;
+    const {
+      limit,
+      sorting_by,
+      page,
+      name,
+      surname,
+      email,
+      phone,
+      age,
+      course,
+      course_format,
+      course_type,
+      status,
+      group,
+      created_at_after,
+      created_at_before,
+      manager,
+    } = query;
     const isDescending = sorting_by.startsWith('-');
     const column = isDescending ? sorting_by.slice(1) : sorting_by;
     if (!columns.includes(column)) {
       throw new BadRequestException(`Unsupported sorting by '${sorting_by}'`);
+    }
+    if (
+      name ||
+      surname ||
+      email ||
+      phone ||
+      age ||
+      course ||
+      course_format ||
+      course_type ||
+      status ||
+      group ||
+      created_at_after ||
+      created_at_before ||
+      manager
+    ) {
+      qb.where(
+        new Brackets((qb) => {
+          if (name) {
+            qb.andWhere('LOWER(order.name) LIKE :name', {
+              name: `%${name}%`,
+            });
+          }
+          if (surname) {
+            qb.andWhere('LOWER(order.surname) LIKE :surname', {
+              surname: `%${surname}%`,
+            });
+          }
+          if (email) {
+            qb.andWhere('LOWER(order.email) LIKE :email', {
+              email: `%${email}%`,
+            });
+          }
+          if (phone) {
+            qb.andWhere('LOWER(order.phone) LIKE :phone', {
+              phone: `%${phone}%`,
+            });
+          }
+          if (age) {
+            qb.andWhere('order.age LIKE :age', {
+              age: `%${age}%`,
+            });
+          }
+          if (course) {
+            qb.andWhere('order.course LIKE :course', {
+              course: `%${course}%`,
+            });
+          }
+          if (course_format) {
+            qb.andWhere('LOWER(order.course_format) LIKE :course_format', {
+              course_format: `%${course_format}%`,
+            });
+          }
+          if (course_type) {
+            qb.andWhere('LOWER(order.course_type) LIKE :course_type', {
+              course_type: `%${course_type}%`,
+            });
+          }
+          if (status) {
+            qb.andWhere('LOWER(order.status) LIKE :status', {
+              status: `%${status}%`,
+            });
+          }
+          if (group) {
+            qb.andWhere('order.group_id LIKE :group_id', {
+              group_id: `%${group}%`,
+            });
+          }
+          if (created_at_after) {
+            qb.andWhere('order.created_at > :created_at_after', {
+              created_at_after,
+            });
+          }
+          if (created_at_before) {
+            qb.andWhere('order.created_at < :created_at_before', {
+              created_at_before,
+            });
+          }
+          if (manager) {
+            qb.andWhere('order.manager_id LIKE :manager_id', {
+              manager_id: `%${manager}%`,
+            });
+          }
+        }),
+      );
     }
     qb.orderBy(`order.${column}`, isDescending ? 'DESC' : 'ASC');
     qb.leftJoinAndSelect('order.group', 'group');
