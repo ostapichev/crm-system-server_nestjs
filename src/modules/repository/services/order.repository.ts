@@ -102,33 +102,27 @@ export class OrderRepository extends Repository<OrderEntity> {
             });
           }
           if (age) {
-            qb.andWhere('order.age LIKE :age', {
-              age: `%${age}%`,
-            });
+            qb.andWhere('order.age LIKE :age', { age });
           }
           if (course) {
-            qb.andWhere('order.course LIKE :course', {
-              course: `%${course}%`,
-            });
+            qb.andWhere('order.course LIKE :course', { course });
           }
           if (course_format) {
             qb.andWhere('LOWER(order.course_format) LIKE :course_format', {
-              course_format: `%${course_format}%`,
+              course_format,
             });
           }
           if (course_type) {
             qb.andWhere('LOWER(order.course_type) LIKE :course_type', {
-              course_type: `%${course_type}%`,
+              course_type,
             });
           }
           if (status) {
-            qb.andWhere('LOWER(order.status) LIKE :status', {
-              status: `%${status}%`,
-            });
+            qb.andWhere('LOWER(order.status) LIKE :status', { status });
           }
           if (group) {
             qb.andWhere('order.group_id LIKE :group_id', {
-              group_id: `%${group}%`,
+              group_id: `${group}`,
             });
           }
           if (created_at_after) {
@@ -143,7 +137,7 @@ export class OrderRepository extends Repository<OrderEntity> {
           }
           if (manager) {
             qb.andWhere('order.manager_id LIKE :manager_id', {
-              manager_id: `%${manager}%`,
+              manager_id: `${manager}`,
             });
           }
         }),

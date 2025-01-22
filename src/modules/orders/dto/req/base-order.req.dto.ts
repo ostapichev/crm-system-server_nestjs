@@ -57,7 +57,7 @@ export class BaseOrderReqDto {
   @Type(() => Number)
   age?: number;
 
-  @ApiProperty({ example: 20000 })
+  @ApiProperty({ example: StatusEnum.NEW })
   @IsEnum(StatusEnum)
   @IsOptional()
   @Type(() => IsEnum)

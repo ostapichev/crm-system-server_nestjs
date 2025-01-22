@@ -18,12 +18,12 @@ import {
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { IUserData } from '../auth/interfaces/user-data.interface';
 import { BaseCommentReqDto } from './dto/req/base-comment.req.dto';
+import { CreateUpdateOrderReqDto } from './dto/req/create-update-order-req.dto';
 import { OrderListQueryDto } from './dto/req/order-list-query.dto';
-import { UpdateOrderReqDto } from './dto/req/update-order.req.dto';
 import { BaseCommentResDto } from './dto/res/base-comment.res.dto';
+import { CreateUpdateOrderResDto } from './dto/res/create-update-order-res.dto';
 import { OrderListResDto } from './dto/res/order-list.res.dto';
 import { OrderListItemResDto } from './dto/res/order-list-item.res.dto';
-import { OrderUpdateResDto } from './dto/res/order-update-res.dto';
 import { NumberGuard } from './guards/number.guard';
 import { OwnerGuard } from './guards/owner.guard';
 import { CommentMapper } from './mappers/comment.mapper';
@@ -34,6 +34,17 @@ import { OrdersService } from './services/order.service';
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
+
+  @ApiOperation({ description: 'Create new order' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Post()
+  public async createNewOrder(
+    @Body() dto: CreateUpdateOrderReqDto,
+  ): Promise<CreateUpdateOrderResDto> {
+    const result = await this.ordersService.createOrder(dto);
+    return OrderMapper.toResponseCreateUpdateItemDTO(result);
+  }
 
   @ApiOperation({ description: 'Get list all orders' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -65,10 +76,10 @@ export class OrdersController {
   @Patch(':orderId')
   public async update(
     @Param('orderId') orderId: number,
-    @Body() dto: UpdateOrderReqDto,
-  ): Promise<OrderUpdateResDto> {
+    @Body() dto: CreateUpdateOrderReqDto,
+  ): Promise<CreateUpdateOrderResDto> {
     const result = await this.ordersService.updateOrder(orderId, dto);
-    return OrderMapper.toResponseUpdateDTO(result);
+    return OrderMapper.toResponseCreateUpdateItemDTO(result);
   }
 
   @ApiOperation({ description: 'Get list all orders' })
@@ -86,7 +97,7 @@ export class OrdersController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiBearerAuth()
   @Post('comments/:orderId')
-  public async addGroup(
+  public async addComment(
     @CurrentUser() userData: IUserData,
     @Param('orderId') orderId: number,
     @Body() dto: BaseCommentReqDto,

@@ -1,9 +1,8 @@
 import { CommentEntity, OrderEntity } from '../../../database/entities';
 import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
-import { OrderResDto } from '../dto/res/order.res.dto';
+import { CreateUpdateOrderResDto } from '../dto/res/create-update-order-res.dto';
 import { OrderListResDto } from '../dto/res/order-list.res.dto';
 import { OrderListItemResDto } from '../dto/res/order-list-item.res.dto';
-import { OrderUpdateResDto } from '../dto/res/order-update-res.dto';
 
 export class OrderMapper {
   public static toResponseListDTO(
@@ -49,20 +48,9 @@ export class OrderMapper {
     };
   }
 
-  public static toResponseDTO(entity: OrderEntity): OrderResDto {
-    return {
-      id: entity.id,
-      name: entity.name,
-      surname: entity.surname,
-      email: entity.email,
-      phone: entity.phone,
-      age: entity.age,
-      course: entity.course,
-      course_format: entity.course_format,
-    };
-  }
-
-  public static toResponseUpdateDTO(entity: OrderEntity): OrderUpdateResDto {
+  public static toResponseCreateUpdateItemDTO(
+    entity: OrderEntity,
+  ): CreateUpdateOrderResDto {
     return {
       id: entity.id,
       group: Number(entity.group_id),

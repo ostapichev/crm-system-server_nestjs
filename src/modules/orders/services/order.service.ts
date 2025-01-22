@@ -14,8 +14,8 @@ import { GroupsService } from '../../groups/services/groups.service';
 import { CommentRepository } from '../../repository/services/comment.repository';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { BaseCommentReqDto } from '../dto/req/base-comment.req.dto';
+import { CreateUpdateOrderReqDto } from '../dto/req/create-update-order-req.dto';
 import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
-import { UpdateOrderReqDto } from '../dto/req/update-order.req.dto';
 
 @Injectable()
 export class OrdersService {
@@ -27,6 +27,21 @@ export class OrdersService {
     private readonly commentRepository: CommentRepository,
     private readonly adminPanelService: AdminPanelService,
   ) {}
+
+  public async createOrder(dto: CreateUpdateOrderReqDto): Promise<OrderEntity> {
+    return await this.entityManager.transaction(
+      'REPEATABLE READ',
+      async (em) => {
+        const orderRepository = em.getRepository(OrderEntity);
+        return await orderRepository.save(
+          this.orderRepository.create({
+            ...dto,
+            status: StatusEnum.NEW,
+          }),
+        );
+      },
+    );
+  }
 
   public async getListAllOrders(
     query: OrderListQueryDto,
@@ -40,7 +55,7 @@ export class OrdersService {
 
   public async updateOrder(
     orderId: number,
-    dto: UpdateOrderReqDto,
+    dto: CreateUpdateOrderReqDto,
   ): Promise<OrderEntity> {
     const order = await this.findOrder(orderId);
     const group = await this.groupsService.getGroupById(dto.group_id);

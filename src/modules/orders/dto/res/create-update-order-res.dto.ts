@@ -1,9 +1,10 @@
 import { PickType } from '@nestjs/swagger';
 
-import { BaseOrderReqDto } from './base-order.req.dto';
+import { BaseOrderResDto } from './base-order.res.dto';
 
-export class UpdateOrderReqDto extends PickType(BaseOrderReqDto, [
-  'group_id',
+export class CreateUpdateOrderResDto extends PickType(BaseOrderResDto, [
+  'id',
+  'group',
   'name',
   'surname',
   'email',
