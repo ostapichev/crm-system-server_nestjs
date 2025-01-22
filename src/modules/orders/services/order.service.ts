@@ -79,26 +79,6 @@ export class OrdersService {
     return await this.commentRepository.find({ where: { order_id: orderId } });
   }
 
-  public async addComment(
-    dto: BaseCommentReqDto,
-    orderId: number,
-    userData: IUserData,
-  ): Promise<CommentEntity> {
-    const user = await this.adminPanelService.getUser(userData.userId);
-    await this.findOrder(orderId);
-    await this.orderRepository.update(orderId, {
-      status: StatusEnum.IN_WORK,
-      manager_id: user.id,
-    });
-    return await this.commentRepository.save(
-      this.commentRepository.create({
-        order_id: orderId,
-        manager_id: user.id,
-        ...dto,
-      }),
-    );
-  }
-
   public async createComment(
     dto: BaseCommentReqDto,
     orderId: number,
