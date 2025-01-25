@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   Query,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -14,6 +15,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { Response } from 'express';
 
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { IUserData } from '../auth/interfaces/user-data.interface';
@@ -55,6 +57,22 @@ export class OrdersController {
   ): Promise<OrderListResDto> {
     const [entities, total] = await this.ordersService.getListAllOrders(query);
     return OrderMapper.toResponseListDTO(entities, total, query);
+  }
+
+  @ApiOperation({ description: 'Create exel file for orders' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @Get('download')
+  async downloadExcel(@Query() query: OrderListQueryDto, @Res() res: Response) {
+    const [entities] = await this.ordersService.getListAllOrders(query);
+    const buffer: Buffer<ArrayBufferLike> =
+      await this.ordersService.generateExcel(entities);
+    res.setHeader('Content-Disposition', 'attachment; filename="data.xlsx"');
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
+    res.send(buffer);
   }
 
   @ApiOperation({ description: 'Get order by id.' })
