@@ -4,7 +4,6 @@ import { IJwtPayload } from '../../auth/interfaces/jwt-payload.interface';
 import { IUserData } from '../../auth/interfaces/user-data.interface';
 import { UserResItemDto } from '../dto/res/user.item.res.dto';
 import { UserResDto } from '../dto/res/user.res.dto';
-import { UserResPublicDto } from '../dto/res/user.res-public.dto';
 import { UserListResDto } from '../dto/res/user-list.res.dto';
 
 export class UserMapper {
@@ -33,18 +32,6 @@ export class UserMapper {
   }
 
   public static toResponseItemDTO(data: UserEntity): UserResItemDto {
-    return {
-      id: data.id,
-      name: data.name,
-      surname: data.surname,
-      email: data.email,
-      role: data.role,
-      is_active: data.is_active,
-      created_at: data.created_at,
-    };
-  }
-
-  public static toResponsePublicDTO(data: UserEntity): UserResPublicDto {
     return {
       id: data.id,
       name: data.name,

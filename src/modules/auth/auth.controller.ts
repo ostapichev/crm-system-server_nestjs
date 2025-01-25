@@ -15,8 +15,8 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { UserResDto } from '../admin-panel/dto/res/user.res.dto';
-import { UserMapper } from '../admin-panel/mappers/user.mapper';
+import { UserResDto } from '../users/dto/res/user.res.dto';
+import { UserMapper } from '../users/mappers/user.mapper';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { SkipAuth } from './decorators/skip-auth.decorator';
 import { SignInReqDto } from './dto/req/sign-in.req.dto';

@@ -7,9 +7,9 @@ import {
 import { Reflector } from '@nestjs/core';
 
 import { TokenType } from '../../../database/enums';
-import { UserMapper } from '../../admin-panel/mappers/user.mapper';
 import { RefreshTokenRepository } from '../../repository/services/refresh-token.repository';
 import { UserRepository } from '../../repository/services/user.repository';
+import { UserMapper } from '../../users/mappers/user.mapper';
 import { TokenService } from '../services/token.service';
 
 @Injectable()

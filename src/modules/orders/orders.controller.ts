@@ -30,12 +30,16 @@ import { NumberGuard } from './guards/number.guard';
 import { OwnerGuard } from './guards/owner.guard';
 import { CommentMapper } from './mappers/comment.mapper';
 import { OrderMapper } from './mappers/order.mapper';
+import { ExportFileService } from './services/export-file.service';
 import { OrdersService } from './services/order.service';
 
 @ApiTags('Orders')
 @Controller('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(
+    private readonly ordersService: OrdersService,
+    private readonly exportFileService: ExportFileService,
+  ) {}
 
   @ApiOperation({ description: 'Create new order' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -65,9 +69,10 @@ export class OrdersController {
   @Get('download')
   async downloadExcel(@Query() query: OrderListQueryDto, @Res() res: Response) {
     const [entities] = await this.ordersService.getListAllOrders(query);
+    const filename: string = this.exportFileService.getCurrentDate();
     const buffer: Buffer<ArrayBufferLike> =
-      await this.ordersService.generateExcel(entities);
-    res.setHeader('Content-Disposition', 'attachment; filename="data.xlsx"');
+      await this.exportFileService.generateExcel(entities);
+    res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
     res.setHeader(
       'Content-Type',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

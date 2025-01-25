@@ -2,26 +2,21 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 
-import { UserEntity } from '../../../database/entities';
 import { UserRoleEnum } from '../../../database/enums';
-import { UserListQueryDto } from '../../auth/dto/req/user-list-query.dto';
 import { UserRepository } from '../../repository/services/user.repository';
+import { UsersService } from '../../users/services/users.service';
 
 @Injectable()
 export class AdminPanelService {
-  constructor(private readonly userRepository: UserRepository) {}
-
-  public async findAllUsers(
-    query: UserListQueryDto,
-  ): Promise<[UserEntity[], number]> {
-    return await this.userRepository.getListAllUsers(query);
-  }
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly userService: UsersService,
+  ) {}
 
   public async banUser(userId: number): Promise<void> {
-    const user = await this.getUser(userId);
+    const user = await this.userService.getUser(userId);
     if (user.role === UserRoleEnum.ADMIN) {
       throw new ForbiddenException('You do not have permissions!');
     }
@@ -34,20 +29,12 @@ export class AdminPanelService {
   }
 
   public async unbanUser(userId: number): Promise<void> {
-    const user = await this.getUser(userId);
+    const user = await this.userService.getUser(userId);
     if (user.is_active) {
       throw new BadRequestException('The user is active!');
     }
     await this.userRepository.update(userId, {
       is_active: true,
     });
-  }
-
-  public async getUser(userId: number): Promise<UserEntity> {
-    const user = await this.userRepository.findOneBy({ id: userId });
-    if (!user) {
-      throw new NotFoundException(`User with id ${userId} not found`);
-    }
-    return user;
   }
 }

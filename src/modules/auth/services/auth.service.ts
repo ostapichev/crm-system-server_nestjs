@@ -10,9 +10,9 @@ import { EntityManager } from 'typeorm';
 
 import { Config, SuperUserConfig } from '../../../config';
 import { RefreshTokenEntity, UserEntity } from '../../../database/entities';
-import { UserMapper } from '../../admin-panel/mappers/user.mapper';
 import { RefreshTokenRepository } from '../../repository/services/refresh-token.repository';
 import { UserRepository } from '../../repository/services/user.repository';
+import { UserMapper } from '../../users/mappers/user.mapper';
 import { SignInReqDto } from '../dto/req/sign-in.req.dto';
 import { SignUpReqDto } from '../dto/req/sign-up.req.dto';
 import { AuthResDto } from '../dto/res/auth.res.dto';

@@ -5,7 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { GlobalExceptionFilter } from '../common';
 import configuration from '../config/configuration';
-import { AdminPanelModule } from './admin-panel/admin_panel.module';
+import { AdminPanelModule } from './admin-panel/admin-panel.module';
 import { AuthModule } from './auth/auth.module';
 import { GroupsModule } from './groups/groups.module';
 import { LoggerModule } from './logger/logger.module';
@@ -13,6 +13,7 @@ import { MysqlModule } from './mysql/mysql.module';
 import { OrdersModule } from './orders/orders.module';
 import { RedisModule } from './redis/redis.module';
 import { RepositoryModule } from './repository/repository.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RepositoryModule } from './repository/repository.module';
     RepositoryModule,
     RedisModule,
     GroupsModule,
+    UsersModule,
   ],
   providers: [
     {

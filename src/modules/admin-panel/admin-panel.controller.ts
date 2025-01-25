@@ -1,13 +1,11 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Param,
   Patch,
   Post,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -16,17 +14,12 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { plainToInstance } from 'class-transformer';
 
-import { UserEntity } from '../../database/entities';
 import { SignUpReqDto } from '../auth/dto/req/sign-up.req.dto';
-import { UserListQueryDto } from '../auth/dto/req/user-list-query.dto';
 import { AuthResDto } from '../auth/dto/res/auth.res.dto';
 import { AuthService } from '../auth/services/auth.service';
-import { UserListResDto } from './dto/res/user-list.res.dto';
 import { AdminGuard } from './guards/admin.guard';
 import { IdMeGuard } from './guards/id-me.guard';
-import { UserMapper } from './mappers/user.mapper';
 import { AdminPanelService } from './services/admin_panel.service';
 
 @ApiBearerAuth()
@@ -37,18 +30,6 @@ export class AdminPanelController {
     private readonly adminPanelService: AdminPanelService,
     private readonly authService: AuthService,
   ) {}
-
-  @ApiOperation({ description: 'Get list all users' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  @UseGuards(AdminGuard)
-  @Get()
-  public async findAllUsers(
-    @Query() query: UserListQueryDto,
-  ): Promise<UserListResDto> {
-    const [entities, total] = await this.adminPanelService.findAllUsers(query);
-    const users = plainToInstance(UserEntity, entities);
-    return UserMapper.toResponseListDTO(users, total, query);
-  }
 
   @ApiOperation({ description: 'Create new user' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
