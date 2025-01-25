@@ -66,20 +66,20 @@ export class ExportFileService {
     data.forEach((item: OrderEntity) => {
       const row = worksheet.addRow({
         id: item.id,
-        name: item.name,
-        surname: item.surname,
-        email: item.email,
-        phone: item.phone,
-        age: item.age,
-        course: item.course,
-        course_format: item.course_format,
-        course_type: item.course_type,
-        status: item.status,
-        sum: item.sum,
-        alreadyPaid: item.alreadyPaid,
-        created_at: item.created_at,
+        name: item.name || 'no data',
+        surname: item.surname || 'no data',
+        email: item.email || 'no data',
+        phone: item.phone || 'no data',
+        age: item.age || 'no data',
+        course: item.course || 'no data',
+        course_format: item.course_format || 'no data',
+        course_type: item.course_type || 'no data',
+        status: item.status || 'no data',
+        sum: item.sum || 'no data',
+        alreadyPaid: item.alreadyPaid || 'no data',
+        created_at: item.created_at || 'no data',
         group: item.group?.name || 'no group',
-        manager: item.manager?.name || 'no manager',
+        manager: item.manager?.surname || 'no manager',
       });
       row.alignment = { vertical: 'middle', horizontal: 'center' };
       row.eachCell({ includeEmpty: true }, (cell: Cell, colIndex: number) => {
