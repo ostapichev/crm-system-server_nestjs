@@ -12,6 +12,18 @@ export class ExportFileService {
   async generateExcel(data: OrderEntity[]): Promise<Buffer> {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Data');
+    this.createHeader(worksheet);
+    this.styleHeader(worksheet);
+    this.insertData(worksheet, data);
+    return await this.createBuffer(workbook);
+  }
+
+  public getCurrentDate(): string {
+    return dayjs().format('YYYY-MM-DD').toString();
+  }
+
+  private createHeader(worksheet: ExcelJS.Worksheet): void {
+    worksheet.views = [{ state: 'frozen', ySplit: 1 }];
     worksheet.columns = [
       { header: 'id', key: 'id', width: 5 },
       { header: 'Name', key: 'name', width: 20 },
@@ -29,17 +41,10 @@ export class ExportFileService {
       { header: 'group', key: 'group', width: 10 },
       { header: 'manager', key: 'manager', width: 13 },
     ];
-    this.styleHeader(worksheet);
-    this.insertData(worksheet, data);
-    return await this.createBuffer(workbook);
-  }
-
-  public getCurrentDate(): string {
-    return dayjs().format('YYYY-MM-DD').toString();
   }
 
   private styleHeader(worksheet: ExcelJS.Worksheet): void {
-    const row = worksheet.getRow(1);
+    const row: ExcelJS.Row = worksheet.getRow(1);
     row.height = 25;
     row.alignment = { vertical: 'middle', horizontal: 'center' };
     row.eachCell((cell: Cell) => {
