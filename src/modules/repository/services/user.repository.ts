@@ -14,6 +14,7 @@ export class UserRepository extends Repository<UserEntity> {
     query: UserListQueryDto,
   ): Promise<[UserEntity[], number]> {
     const qb = this.createQueryBuilder('user');
+    qb.orderBy('user.id', 'DESC');
     qb.andWhere('user.role != :role', { role: 'admin' });
     if (query.search) {
       qb.andWhere('CONCAT(user.name, user.email) ILIKE :search');

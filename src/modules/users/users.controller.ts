@@ -10,6 +10,8 @@ import { plainToInstance } from 'class-transformer';
 import { UserEntity } from '../../database/entities';
 import { AdminGuard } from '../admin-panel/guards/admin.guard';
 import { UserListQueryDto } from '../auth/dto/req/user-list-query.dto';
+import { OrdersStatisticDto } from '../orders/dto/res/orders-statistic.dto';
+import { OrderStatisticMapper } from '../orders/mappers/order-statistic.mapper';
 import { UserResItemDto } from './dto/res/user.item.res.dto';
 import { UserListResDto } from './dto/res/user-list.res.dto';
 import { UserMapper } from './mappers/user.mapper';
@@ -31,6 +33,16 @@ export class UsersController {
     const [entities, total] = await this.userService.findAllUsers(query);
     const users = plainToInstance(UserEntity, entities);
     return UserMapper.toResponseListDTO(users, total, query);
+  }
+
+  @ApiOperation({ description: 'Get user statistic' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @Get('statistic/:userId')
+  public async statisticUser(
+    @Param('userId') userId: number,
+  ): Promise<OrdersStatisticDto> {
+    const result = await this.userService.getUserStatistic(userId);
+    return OrderStatisticMapper.toResponseItemDTO(result);
   }
 
   @ApiOperation({ description: 'Get user by id' })

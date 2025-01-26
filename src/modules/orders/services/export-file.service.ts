@@ -69,7 +69,7 @@ export class ExportFileService {
 
   private insertData(worksheet: ExcelJS.Worksheet, data: OrderEntity[]): void {
     data.forEach((item: OrderEntity) => {
-      const row = worksheet.addRow({
+      const row: ExcelJS.Row = worksheet.addRow({
         id: item.id,
         name: item.name || 'no data',
         surname: item.surname || 'no data',

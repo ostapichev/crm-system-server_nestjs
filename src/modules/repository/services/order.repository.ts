@@ -10,6 +10,7 @@ import {
 import { OrderEntity } from '../../../database/entities';
 import { columns } from '../../orders/constants/columns';
 import { OrderListQueryDto } from '../../orders/dto/req/order-list-query.dto';
+import { OrdersStatisticDto } from '../../orders/dto/res/orders-statistic.dto';
 
 @Injectable()
 export class OrderRepository extends Repository<OrderEntity> {
@@ -35,6 +36,42 @@ export class OrderRepository extends Repository<OrderEntity> {
     qb.leftJoinAndSelect('order.comments', 'comments');
     qb.leftJoinAndSelect('comments.user', 'comment_user');
     return await qb.getOne();
+  }
+
+  public async getStatistic(userId?: number): Promise<OrdersStatisticDto> {
+    const baseQuery = this.createQueryBuilder('order');
+    if (userId) {
+      baseQuery.andWhere('order.manager_id = :userId', { userId });
+    }
+    const orders = await baseQuery.getCount();
+    const agree = this.createQueryBuilder('order')
+      .where('order.status = :agree', { agree: 'agree' })
+      .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
+      .getCount();
+    const in_work = this.createQueryBuilder('order')
+      .where('order.status = :in_work', { in_work: 'in_work' })
+      .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
+      .getCount();
+    const disagree = this.createQueryBuilder('order')
+      .where('order.status = :disagree', { disagree: 'disagree' })
+      .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
+      .getCount();
+    const dubbing = this.createQueryBuilder('order')
+      .where('order.status = :dubbing', { dubbing: 'dubbing' })
+      .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
+      .getCount();
+    const news = this.createQueryBuilder('order')
+      .where('order.status = :new', { new: 'new' })
+      .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
+      .getCount();
+    return {
+      orders,
+      agree: await agree,
+      in_work: await in_work,
+      disagree: await disagree,
+      dubbing: await dubbing,
+      news: await news,
+    };
   }
 
   private async qbHelper(

@@ -36,7 +36,7 @@ export class AuthService {
   public async signUp(dto: SignUpReqDto): Promise<AuthResDto> {
     return await this.entityManager.transaction(
       'REPEATABLE READ',
-      async (em) => {
+      async (em: EntityManager) => {
         await this.isEmailExistOrThrow(dto.email);
         const config = this.configService.get<SuperUserConfig>('superuser');
         const userRepository = em.getRepository(UserEntity);
@@ -53,7 +53,7 @@ export class AuthService {
   public async signIn(dto: SignInReqDto): Promise<AuthResDto> {
     return await this.entityManager.transaction(
       'REPEATABLE READ',
-      async (em) => {
+      async (em: EntityManager) => {
         const user = await this.userRepository.findOne({
           where: { email: dto.email },
           select: { id: true, password: true, is_active: true },
@@ -82,7 +82,7 @@ export class AuthService {
   public async refresh(userData: IUserData): Promise<TokenPairResDto> {
     return await this.entityManager.transaction(
       'REPEATABLE READ',
-      async (em) => {
+      async (em: EntityManager) => {
         await this.deleteRefreshToken(userData);
         return await this.createTokens(userData.userId, em);
       },
