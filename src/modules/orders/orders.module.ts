@@ -8,7 +8,11 @@ import { ExportFileService } from './services/export-file.service';
 import { OrdersService } from './services/order.service';
 
 @Module({
-  imports: [forwardRef(() => UsersModule), AuthModule, GroupsModule],
+  imports: [
+    forwardRef(() => UsersModule),
+    forwardRef(() => AuthModule),
+    GroupsModule,
+  ],
   controllers: [OrdersController],
   providers: [OrdersService, ExportFileService],
   exports: [OrdersService],

@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -19,8 +20,10 @@ import { UserResDto } from '../users/dto/res/user.res.dto';
 import { UserMapper } from '../users/mappers/user.mapper';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { SkipAuth } from './decorators/skip-auth.decorator';
+import { ActivateUserReqDto } from './dto/req/activate-user.req.dto';
 import { SignInReqDto } from './dto/req/sign-in.req.dto';
 import { AuthResDto } from './dto/res/auth.res.dto';
+import { BaseResDto } from './dto/res/base.res.dto';
 import { TokenPairResDto } from './dto/res/token-pair.res.dto';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { IUserData } from './interfaces/user-data.interface';
@@ -36,6 +39,16 @@ export class AuthController {
   @Post('sign-in')
   public async signIn(@Body() dto: SignInReqDto): Promise<AuthResDto> {
     return await this.authService.signIn(dto);
+  }
+
+  @ApiOperation({ description: 'Activation user by activate token from link' })
+  @SkipAuth()
+  @Post('activate/:activateToken')
+  public async activateUser(
+    @Body() dto: ActivateUserReqDto,
+    @Param('activateToken') activateToken: string,
+  ): Promise<BaseResDto> {
+    return await this.authService.activateUser(activateToken, dto);
   }
 
   @ApiOperation({ description: 'Get me data' })

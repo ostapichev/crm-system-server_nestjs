@@ -4,9 +4,8 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
 
-import { TokenType } from '../../../database/enums';
+import { TokenTypeEnum } from '../../../database/enums';
 import { RefreshTokenRepository } from '../../repository/services/refresh-token.repository';
 import { UserRepository } from '../../repository/services/user.repository';
 import { UserMapper } from '../../users/mappers/user.mapper';
@@ -15,7 +14,6 @@ import { TokenService } from '../services/token.service';
 @Injectable()
 export class JwtRefreshGuard implements CanActivate {
   constructor(
-    private readonly reflector: Reflector,
     private readonly tokenService: TokenService,
     private readonly refreshTokenRepository: RefreshTokenRepository,
     private readonly userRepository: UserRepository,
@@ -29,7 +27,7 @@ export class JwtRefreshGuard implements CanActivate {
     }
     const payload = await this.tokenService.verifyToken(
       refreshToken,
-      TokenType.REFRESH,
+      TokenTypeEnum.REFRESH,
     );
     if (!payload) {
       throw new UnauthorizedException();

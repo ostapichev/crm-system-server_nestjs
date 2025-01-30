@@ -1,5 +1,5 @@
-import { UserListQueryDto } from '../../../auth/dto/req/user-list-query.dto';
 import { UserResDto } from './user.res.dto';
+import { UserListQueryDto } from './user-list-query.dto';
 
 export class UserListResDto extends UserListQueryDto {
   data: UserResDto[];

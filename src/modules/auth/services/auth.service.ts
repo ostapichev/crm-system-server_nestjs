@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   UnauthorizedException,
@@ -10,12 +11,15 @@ import { EntityManager } from 'typeorm';
 
 import { Config, SuperUserConfig } from '../../../config';
 import { RefreshTokenEntity, UserEntity } from '../../../database/entities';
+import { TokenTypeEnum } from '../../../database/enums';
 import { RefreshTokenRepository } from '../../repository/services/refresh-token.repository';
 import { UserRepository } from '../../repository/services/user.repository';
 import { UserMapper } from '../../users/mappers/user.mapper';
+import { ActivateUserReqDto } from '../dto/req/activate-user.req.dto';
 import { SignInReqDto } from '../dto/req/sign-in.req.dto';
 import { SignUpReqDto } from '../dto/req/sign-up.req.dto';
 import { AuthResDto } from '../dto/res/auth.res.dto';
+import { BaseResDto } from '../dto/res/base.res.dto';
 import { TokenPairResDto } from '../dto/res/token-pair.res.dto';
 import { IUserData } from '../interfaces/user-data.interface';
 import { AuthCacheService } from './auth-cache.service';
@@ -39,13 +43,12 @@ export class AuthService {
       async (em: EntityManager) => {
         await this.isEmailExistOrThrow(dto.email);
         const config = this.configService.get<SuperUserConfig>('superuser');
-        const userRepository = em.getRepository(UserEntity);
         const password = await bcrypt.hash(config.password, 10);
+        const userRepository = em.getRepository(UserEntity);
         const user = await userRepository.save(
           this.userRepository.create({ ...dto, password }),
         );
-        const tokens = await this.createTokens(user.id, em);
-        return { user: UserMapper.toResponseItemDTO(user), tokens };
+        return { user: UserMapper.toResponseItemDTO(user) };
       },
     );
   }
@@ -77,6 +80,38 @@ export class AuthService {
 
   public async findMe(userData: IUserData): Promise<UserEntity> {
     return await this.userRepository.getByIdUser(userData.userId);
+  }
+
+  public async activateUser(
+    activateToken: string,
+    dto: ActivateUserReqDto,
+  ): Promise<BaseResDto> {
+    return await this.entityManager.transaction('SERIALIZABLE', async (em) => {
+      const password = await bcrypt.hash(dto.password, 10);
+      const userRepository = em.getRepository(UserEntity);
+      const payload = await this.tokenService.verifyToken(
+        activateToken,
+        TokenTypeEnum.ACTIVATE,
+      );
+      const { userId } = payload;
+      const isActivateTokenExist =
+        await this.authCacheService.isAccessTokenExist(
+          userId,
+          activateToken,
+          TokenTypeEnum.ACTIVATE,
+        );
+      const user = await this.userRepository.findOne({
+        where: { id: userId },
+      });
+      if (!user || !payload || !isActivateTokenExist) {
+        throw new BadRequestException('Invalid user data!');
+      }
+      await userRepository.update(user.id, {
+        password,
+        is_active: true,
+      });
+      return { message: 'Activation is successful!' };
+    });
   }
 
   public async refresh(userData: IUserData): Promise<TokenPairResDto> {

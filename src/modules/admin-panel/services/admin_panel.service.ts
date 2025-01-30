@@ -5,6 +5,9 @@ import {
 } from '@nestjs/common';
 
 import { UserRoleEnum } from '../../../database/enums';
+import { IActivateToken } from '../../auth/interfaces/token-pair.interface';
+import { AuthCacheService } from '../../auth/services/auth-cache.service';
+import { TokenService } from '../../auth/services/token.service';
 import { OrdersStatisticDto } from '../../orders/dto/res/orders-statistic.dto';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { UserRepository } from '../../repository/services/user.repository';
@@ -14,12 +17,20 @@ import { UsersService } from '../../users/services/users.service';
 export class AdminPanelService {
   constructor(
     private readonly orderRepository: OrderRepository,
+    private readonly authCacheService: AuthCacheService,
     private readonly userRepository: UserRepository,
     private readonly userService: UsersService,
+    private readonly tokenService: TokenService,
   ) {}
 
   public async getOrdersStatistic(): Promise<OrdersStatisticDto> {
     return await this.orderRepository.getStatistic();
+  }
+
+  public async getActivateToken(userId: number): Promise<IActivateToken> {
+    const token = await this.tokenService.generateActivateToken({ userId });
+    await this.authCacheService.saveActivateToken(token.activateToken, userId);
+    return token;
   }
 
   public async banUser(userId: number): Promise<void> {

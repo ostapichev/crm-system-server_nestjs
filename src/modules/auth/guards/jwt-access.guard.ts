@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-import { TokenType } from '../../../database/enums';
+import { TokenTypeEnum } from '../../../database/enums';
 import { UserRepository } from '../../repository/services/user.repository';
 import { UserMapper } from '../../users/mappers/user.mapper';
 import { AuthCacheService } from '../services/auth-cache.service';
@@ -34,7 +34,7 @@ export class JwtAccessGuard implements CanActivate {
     }
     const payload = await this.tokenService.verifyToken(
       accessToken,
-      TokenType.ACCESS,
+      TokenTypeEnum.ACCESS,
     );
     if (!payload) {
       throw new UnauthorizedException();
@@ -42,6 +42,7 @@ export class JwtAccessGuard implements CanActivate {
     const isAccessTokenExist = await this.authCacheService.isAccessTokenExist(
       payload.userId,
       accessToken,
+      TokenTypeEnum.ACCESS,
     );
     if (!isAccessTokenExist) {
       throw new UnauthorizedException();

@@ -9,11 +9,11 @@ import { plainToInstance } from 'class-transformer';
 
 import { UserEntity } from '../../database/entities';
 import { AdminGuard } from '../admin-panel/guards/admin.guard';
-import { UserListQueryDto } from '../auth/dto/req/user-list-query.dto';
 import { OrdersStatisticDto } from '../orders/dto/res/orders-statistic.dto';
 import { OrderStatisticMapper } from '../orders/mappers/order-statistic.mapper';
 import { UserResItemDto } from './dto/res/user.item.res.dto';
 import { UserListResDto } from './dto/res/user-list.res.dto';
+import { UserListQueryDto } from './dto/res/user-list-query.dto';
 import { UserMapper } from './mappers/user.mapper';
 import { UsersService } from './services/users.service';
 

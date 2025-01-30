@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { UserEntity } from '../../../database/entities';
-import { UserListQueryDto } from '../../auth/dto/req/user-list-query.dto';
 import { OrdersStatisticDto } from '../../orders/dto/res/orders-statistic.dto';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { UserRepository } from '../../repository/services/user.repository';
+import { UserListQueryDto } from '../dto/res/user-list-query.dto';
 
 @Injectable()
 export class UsersService {

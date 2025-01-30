@@ -2,8 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   Patch,
   Post,
@@ -18,11 +16,14 @@ import {
 
 import { SignUpReqDto } from '../auth/dto/req/sign-up.req.dto';
 import { AuthResDto } from '../auth/dto/res/auth.res.dto';
+import { BaseResDto } from '../auth/dto/res/base.res.dto';
 import { AuthService } from '../auth/services/auth.service';
 import { OrdersStatisticDto } from '../orders/dto/res/orders-statistic.dto';
 import { OrderStatisticMapper } from '../orders/mappers/order-statistic.mapper';
+import { ActivateTokenResDto } from './dto/res/activate-token.res.dto';
 import { AdminGuard } from './guards/admin.guard';
 import { IdMeGuard } from './guards/id-me.guard';
+import { ActivateTokenMapper } from './mappers/activate-token.mapper';
 import { AdminPanelService } from './services/admin_panel.service';
 
 @ApiBearerAuth()
@@ -36,6 +37,7 @@ export class AdminPanelController {
 
   @ApiOperation({ description: 'Create new user' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   @Post()
   public async signUp(@Body() dto: SignUpReqDto): Promise<AuthResDto> {
@@ -44,6 +46,19 @@ export class AdminPanelController {
 
   @ApiOperation({ description: 'Statistic for orders' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
+  @Get('activate-user/:userId')
+  public async getActivateUser(
+    @Param('userId') userId: number,
+  ): Promise<ActivateTokenResDto> {
+    const result = await this.adminPanelService.getActivateToken(userId);
+    return ActivateTokenMapper.toResponseItemDTO(result);
+  }
+
+  @ApiOperation({ description: 'Statistic for orders' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   @Get('orders-statistic')
   public async ordersStatistic(): Promise<OrdersStatisticDto> {
@@ -53,19 +68,21 @@ export class AdminPanelController {
 
   @ApiOperation({ description: 'Ban user by id' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AdminGuard, IdMeGuard)
-  @HttpCode(HttpStatus.NO_CONTENT)
   @Patch('ban/:userId')
-  public async banUser(@Param('userId') userId: number): Promise<void> {
+  public async banUser(@Param('userId') userId: number): Promise<BaseResDto> {
     await this.adminPanelService.banUser(userId);
+    return { message: `User id ${userId} is banned!` };
   }
 
   @ApiOperation({ description: 'Unban user by id' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AdminGuard, IdMeGuard)
-  @HttpCode(HttpStatus.NO_CONTENT)
   @Patch('unban/:userId')
-  public async unbanUser(@Param('userId') userId: number): Promise<void> {
+  public async unbanUser(@Param('userId') userId: number): Promise<BaseResDto> {
     await this.adminPanelService.unbanUser(userId);
+    return { message: `User id ${userId} is unbanned!` };
   }
 }
