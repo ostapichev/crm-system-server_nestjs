@@ -1,5 +1,5 @@
 export type Config = {
-  superuser: SuperUserConfig;
+  superuser: UserConfig;
   app: AppConfig;
   mysql: MySQLConfig;
   redis: RedisConfig;
@@ -7,7 +7,7 @@ export type Config = {
   jwt: JwtConfig;
 };
 
-export type SuperUserConfig = {
+export type UserConfig = {
   name: string;
   surname: string;
   email: string;

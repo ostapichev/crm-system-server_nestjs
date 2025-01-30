@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
-import { Config, SuperUserConfig } from '../../../config';
+import { Config, UserConfig } from '../../../config';
 import { UserEntity } from '../../../database/entities';
 import { UserRoleEnum } from '../../../database/enums';
 import { UserRepository } from '../../repository/services/user.repository';
@@ -19,7 +19,7 @@ export class SuperUserService {
       role: UserRoleEnum.ADMIN,
     });
     if (!user) {
-      const config = this.configService.get<SuperUserConfig>('superuser');
+      const config = this.configService.get<UserConfig>('superuser');
       const password = await bcrypt.hash(config.password, 10);
       await this.userRepository.save({
         name: config.name,

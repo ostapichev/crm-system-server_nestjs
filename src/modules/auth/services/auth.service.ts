@@ -9,7 +9,7 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { EntityManager } from 'typeorm';
 
-import { Config, SuperUserConfig } from '../../../config';
+import { Config, UserConfig } from '../../../config';
 import { RefreshTokenEntity, UserEntity } from '../../../database/entities';
 import { TokenTypeEnum } from '../../../database/enums';
 import { RefreshTokenRepository } from '../../repository/services/refresh-token.repository';
@@ -42,7 +42,7 @@ export class AuthService {
       'REPEATABLE READ',
       async (em: EntityManager) => {
         await this.isEmailExistOrThrow(dto.email);
-        const config = this.configService.get<SuperUserConfig>('superuser');
+        const config = this.configService.get<UserConfig>('superuser');
         const password = await bcrypt.hash(config.password, 10);
         const userRepository = em.getRepository(UserEntity);
         const user = await userRepository.save(
@@ -106,10 +106,16 @@ export class AuthService {
       if (!user || !payload || !isActivateTokenExist) {
         throw new BadRequestException('Invalid user data!');
       }
-      await userRepository.update(user.id, {
-        password,
-        is_active: true,
-      });
+      if (user.is_active) {
+        await userRepository.update(user.id, {
+          password,
+        });
+      } else {
+        await userRepository.update(user.id, {
+          password,
+          is_active: true,
+        });
+      }
       return { message: 'Activation is successful!' };
     });
   }
