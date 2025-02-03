@@ -46,7 +46,11 @@ export class AuthService {
         const password = await bcrypt.hash(config.password, 10);
         const userRepository = em.getRepository(UserEntity);
         const user = await userRepository.save(
-          this.userRepository.create({ ...dto, password }),
+          this.userRepository.create({
+            ...dto,
+            password,
+            created_at: new Date(),
+          }),
         );
         return { user: UserMapper.toResponseItemDTO(user) };
       },
@@ -57,6 +61,7 @@ export class AuthService {
     return await this.entityManager.transaction(
       'REPEATABLE READ',
       async (em: EntityManager) => {
+        const userRepository = em.getRepository(UserEntity);
         const user = await this.userRepository.findOne({
           where: { email: dto.email },
           select: { id: true, password: true, is_active: true },
@@ -71,6 +76,9 @@ export class AuthService {
         if (!isPasswordValid) {
           throw new UnauthorizedException('Invalid password or email');
         }
+        await userRepository.update(user.id, {
+          last_login: new Date(),
+        });
         const tokens = await this.createTokens(user.id, em);
         const userEntity = await this.userRepository.findOneBy({ id: user.id });
         return { user: UserMapper.toResponseItemDTO(userEntity), tokens };

@@ -10,4 +10,5 @@ export class UserResItemDto extends PickType(BaseUserResDto, [
   'role',
   'is_active',
   'created_at',
+  'last_login',
 ]) {}

@@ -48,5 +48,5 @@ export class BaseUserResDto {
   @ApiProperty({
     example: '2024-09-17T19:39:48.603Z',
   })
-  last_login: Date;
+  last_login?: Date;
 }

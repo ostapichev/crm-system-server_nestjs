@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany } from 'typeorm';
 
 import { TableNameEnum, UserRoleEnum } from '../enums';
 import { CommentEntity } from './comment.entity';
@@ -27,6 +27,9 @@ export class UserEntity extends CreateUpdateModel {
   @Column({ type: 'tinyint', width: 1, default: 0 })
   @Transform(({ value }) => Boolean(value))
   is_active: boolean;
+
+  @CreateDateColumn({ type: 'timestamp', nullable: true })
+  last_login: Date;
 
   @OneToMany(() => CommentEntity, (entity) => entity.user)
   comments?: CommentEntity[];

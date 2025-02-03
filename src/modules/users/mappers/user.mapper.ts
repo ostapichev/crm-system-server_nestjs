@@ -27,6 +27,7 @@ export class UserMapper {
       email: data.email,
       role: data.role,
       is_active: data.is_active,
+      last_login: data.last_login,
       created_at: data.created_at,
     };
   }
@@ -39,6 +40,7 @@ export class UserMapper {
       email: data.email,
       role: data.role,
       is_active: data.is_active,
+      last_login: data.last_login,
       created_at: data.created_at,
     };
   }
@@ -50,6 +52,7 @@ export class UserMapper {
       surname: user.surname,
       email: user.email,
       role: user.role,
+      last_login: user.last_login,
       is_active: user.is_active,
     };
   }

@@ -17,7 +17,7 @@ export class UserRepository extends Repository<UserEntity> {
     qb.orderBy('user.id', 'DESC');
     qb.andWhere('user.role != :role', { role: 'admin' });
     if (query.search) {
-      qb.andWhere('CONCAT(user.name, user.email) ILIKE :search');
+      qb.andWhere('CONCAT(user.name, user.surname) LIKE :search');
       qb.setParameter('search', `%${query.search}%`);
     }
     qb.take(query.limit);
