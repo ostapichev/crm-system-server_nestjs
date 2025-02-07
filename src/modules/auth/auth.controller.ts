@@ -7,7 +7,9 @@ import {
   Param,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiForbiddenResponse,
@@ -34,21 +36,22 @@ import { AuthService } from './services/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ description: 'Login user' })
-  @SkipAuth()
-  @Post('sign-in')
-  public async signIn(@Body() dto: SignInReqDto): Promise<AuthResDto> {
-    return await this.authService.signIn(dto);
-  }
-
   @ApiOperation({ description: 'Activation user by activate token from link' })
   @SkipAuth()
   @Post('activate/:activateToken')
+  @UseInterceptors(FileInterceptor(''))
   public async activateUser(
     @Body() dto: ActivateUserReqDto,
     @Param('activateToken') activateToken: string,
   ): Promise<BaseResDto> {
     return await this.authService.activateUser(activateToken, dto);
+  }
+
+  @ApiOperation({ description: 'Login user' })
+  @SkipAuth()
+  @Post('sign-in')
+  public async signIn(@Body() dto: SignInReqDto): Promise<AuthResDto> {
+    return await this.authService.signIn(dto);
   }
 
   @ApiOperation({ description: 'Get me data' })

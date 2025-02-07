@@ -14,7 +14,8 @@ export class ActivateTokenResDto {
 
   @ApiProperty({
     example:
-      "Link for activate user Smith created!. Push on the button 'copy to clipboard', user id: 2.",
+      'Link for activate user Smith created!. ' +
+      'Push on the button "copy to clipboard", user id: 2.',
   })
   @IsString()
   @IsOptional()

@@ -43,8 +43,8 @@ export class TokenService {
     return {
       activateToken,
       message:
-        `Link for activate user ${user.surname} created!.` +
-        ` Push on the button 'copy to clipboard', user id: ${user.id}.`,
+        `Link for activate user ${user.surname} created! ` +
+        `Push on the button 'copy to clipboard', user id: ${user.id}.`,
     };
   }
 
