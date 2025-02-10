@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities';
-import { OrdersStatisticDto } from '../../admin-panel/dto/res/orders-statistic.dto';
+import { OrdersStatisticResDto } from '../../admin-panel/dto/res/orders-statistic.res.dto';
 import { columns } from '../../orders/constants/columns';
 import { OrderListQueryDto } from '../../orders/dto/req/order-list-query.dto';
 
@@ -38,7 +38,7 @@ export class OrderRepository extends Repository<OrderEntity> {
     return await qb.getOne();
   }
 
-  public async getStatistic(userId?: number): Promise<OrdersStatisticDto> {
+  public async getStatistic(userId?: number): Promise<OrdersStatisticResDto> {
     const baseQuery = this.createQueryBuilder('order');
     if (userId) {
       baseQuery.andWhere('order.manager_id = :userId', { userId });
@@ -66,7 +66,6 @@ export class OrderRepository extends Repository<OrderEntity> {
       .getCount();
     const status_null = this.createQueryBuilder('order')
       .where('order.status IS NULL', { null: null })
-      .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
       .getCount();
     return {
       orders,

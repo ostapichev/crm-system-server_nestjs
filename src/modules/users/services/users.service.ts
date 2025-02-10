@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { UserEntity } from '../../../database/entities';
-import { OrdersStatisticDto } from '../../admin-panel/dto/res/orders-statistic.dto';
+import { UserStatisticResDto } from '../../admin-panel/dto/res/user-statistic.res.dto';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { UserRepository } from '../../repository/services/user.repository';
 import { UserListQueryDto } from '../dto/res/user-list-query.dto';
@@ -19,7 +19,7 @@ export class UsersService {
     return await this.userRepository.getListAllUsers(query);
   }
 
-  public async getUserStatistic(userId: number): Promise<OrdersStatisticDto> {
+  public async getUserStatistic(userId: number): Promise<UserStatisticResDto> {
     const user = await this.getUser(userId);
     return await this.orderRepository.getStatistic(user.id);
   }

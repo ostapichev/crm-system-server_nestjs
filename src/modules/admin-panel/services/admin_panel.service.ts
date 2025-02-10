@@ -11,7 +11,7 @@ import { TokenService } from '../../auth/services/token.service';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { UserRepository } from '../../repository/services/user.repository';
 import { UsersService } from '../../users/services/users.service';
-import { OrdersStatisticDto } from '../dto/res/orders-statistic.dto';
+import { OrdersStatisticResDto } from '../dto/res/orders-statistic.res.dto';
 
 @Injectable()
 export class AdminPanelService {
@@ -23,7 +23,7 @@ export class AdminPanelService {
     private readonly tokenService: TokenService,
   ) {}
 
-  public async getOrdersStatistic(): Promise<OrdersStatisticDto> {
+  public async getOrdersStatistic(): Promise<OrdersStatisticResDto> {
     return await this.orderRepository.getStatistic();
   }
 

@@ -18,12 +18,12 @@ import { SignUpReqDto } from '../auth/dto/req/sign-up.req.dto';
 import { AuthResDto } from '../auth/dto/res/auth.res.dto';
 import { BaseResDto } from '../auth/dto/res/base.res.dto';
 import { AuthService } from '../auth/services/auth.service';
-import { OrderStatisticMapper } from '../orders/mappers/order-statistic.mapper';
 import { ActivateTokenResDto } from './dto/res/activate-token.res.dto';
-import { OrdersStatisticDto } from './dto/res/orders-statistic.dto';
+import { OrdersStatisticResDto } from './dto/res/orders-statistic.res.dto';
 import { AdminGuard } from './guards/admin.guard';
 import { IdMeGuard } from './guards/id-me.guard';
 import { ActivateTokenMapper } from './mappers/activate-token.mapper';
+import { OrderStatisticMapper } from './mappers/order-statistic.mapper';
 import { AdminPanelService } from './services/admin_panel.service';
 
 @ApiBearerAuth()
@@ -61,7 +61,7 @@ export class AdminPanelController {
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
   @Get('orders-statistic')
-  public async ordersStatistic(): Promise<OrdersStatisticDto> {
+  public async ordersStatistic(): Promise<OrdersStatisticResDto> {
     const result = await this.adminPanelService.getOrdersStatistic();
     return OrderStatisticMapper.toResponseItemDTO(result);
   }

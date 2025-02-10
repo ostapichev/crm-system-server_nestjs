@@ -8,13 +8,13 @@ import {
 import { plainToInstance } from 'class-transformer';
 
 import { UserEntity } from '../../database/entities';
-import { OrdersStatisticDto } from '../admin-panel/dto/res/orders-statistic.dto';
+import { UserStatisticResDto } from '../admin-panel/dto/res/user-statistic.res.dto';
 import { AdminGuard } from '../admin-panel/guards/admin.guard';
-import { OrderStatisticMapper } from '../orders/mappers/order-statistic.mapper';
 import { UserResItemDto } from './dto/res/user.item.res.dto';
 import { UserListResDto } from './dto/res/user-list.res.dto';
 import { UserListQueryDto } from './dto/res/user-list-query.dto';
 import { UserMapper } from './mappers/user.mapper';
+import { UserStatisticMapper } from './mappers/user-statistic.mapper';
 import { UsersService } from './services/users.service';
 
 @ApiBearerAuth()
@@ -40,9 +40,9 @@ export class UsersController {
   @Get('statistic/:userId')
   public async statisticUser(
     @Param('userId') userId: number,
-  ): Promise<OrdersStatisticDto> {
+  ): Promise<UserStatisticResDto> {
     const result = await this.userService.getUserStatistic(userId);
-    return OrderStatisticMapper.toResponseItemDTO(result);
+    return UserStatisticMapper.toResponseItemDTO(result);
   }
 
   @ApiOperation({ description: 'Get user by id' })
