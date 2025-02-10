@@ -12,7 +12,6 @@ import { IUserData } from '../../auth/interfaces/user-data.interface';
 import { GroupsService } from '../../groups/services/groups.service';
 import { CommentRepository } from '../../repository/services/comment.repository';
 import { OrderRepository } from '../../repository/services/order.repository';
-import { UsersService } from '../../users/services/users.service';
 import { BaseCommentReqDto } from '../dto/req/base-comment.req.dto';
 import { CreateUpdateOrderReqDto } from '../dto/req/create-update-order-req.dto';
 import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
@@ -21,7 +20,6 @@ import { OrderListQueryDto } from '../dto/req/order-list-query.dto';
 export class OrdersService {
   constructor(
     @InjectEntityManager()
-    private readonly userService: UsersService,
     private readonly entityManager: EntityManager,
     private readonly orderRepository: OrderRepository,
     private readonly groupsService: GroupsService,
@@ -87,17 +85,16 @@ export class OrdersService {
     return await this.entityManager.transaction(
       'REPEATABLE READ',
       async (em) => {
-        const user = await this.userService.getUser(userData.userId);
         const commentRepository = em.getRepository(CommentEntity);
         await this.findOrder(orderId);
         await this.orderRepository.update(orderId, {
           status: StatusEnum.IN_WORK,
-          manager_id: user.id,
+          manager_id: userData.userId,
         });
         return await commentRepository.save(
           this.commentRepository.create({
             order_id: orderId,
-            manager_id: user.id,
+            manager_id: userData.userId,
             ...dto,
           }),
         );

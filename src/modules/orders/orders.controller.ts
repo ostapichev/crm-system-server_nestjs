@@ -119,6 +119,7 @@ export class OrdersController {
   @ApiOperation({ description: 'Create comment for order' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiBearerAuth()
+  @UseGuards(OwnerGuard)
   @Post('comments/:orderId')
   public async addComment(
     @CurrentUser() userData: IUserData,
