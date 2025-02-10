@@ -8,10 +8,10 @@ import { UserRoleEnum } from '../../../database/enums';
 import { IActivateToken } from '../../auth/interfaces/token-pair.interface';
 import { AuthCacheService } from '../../auth/services/auth-cache.service';
 import { TokenService } from '../../auth/services/token.service';
-import { OrdersStatisticDto } from '../../orders/dto/res/orders-statistic.dto';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { UserRepository } from '../../repository/services/user.repository';
 import { UsersService } from '../../users/services/users.service';
+import { OrdersStatisticDto } from '../dto/res/orders-statistic.dto';
 
 @Injectable()
 export class AdminPanelService {

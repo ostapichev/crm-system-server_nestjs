@@ -1,4 +1,4 @@
-import { OrdersStatisticDto } from '../dto/res/orders-statistic.dto';
+import { OrdersStatisticDto } from '../../admin-panel/dto/res/orders-statistic.dto';
 
 export class OrderStatisticMapper {
   public static toResponseItemDTO(dto: OrdersStatisticDto): OrdersStatisticDto {
@@ -9,6 +9,7 @@ export class OrderStatisticMapper {
       disagree: dto.disagree,
       dubbing: dto.dubbing,
       news: dto.news,
+      status_null: dto.status_null,
     };
   }
 }

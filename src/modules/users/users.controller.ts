@@ -8,8 +8,8 @@ import {
 import { plainToInstance } from 'class-transformer';
 
 import { UserEntity } from '../../database/entities';
+import { OrdersStatisticDto } from '../admin-panel/dto/res/orders-statistic.dto';
 import { AdminGuard } from '../admin-panel/guards/admin.guard';
-import { OrdersStatisticDto } from '../orders/dto/res/orders-statistic.dto';
 import { OrderStatisticMapper } from '../orders/mappers/order-statistic.mapper';
 import { UserResItemDto } from './dto/res/user.item.res.dto';
 import { UserListResDto } from './dto/res/user-list.res.dto';

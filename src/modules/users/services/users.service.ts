@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { UserEntity } from '../../../database/entities';
-import { OrdersStatisticDto } from '../../orders/dto/res/orders-statistic.dto';
+import { OrdersStatisticDto } from '../../admin-panel/dto/res/orders-statistic.dto';
 import { OrderRepository } from '../../repository/services/order.repository';
 import { UserRepository } from '../../repository/services/user.repository';
 import { UserListQueryDto } from '../dto/res/user-list-query.dto';

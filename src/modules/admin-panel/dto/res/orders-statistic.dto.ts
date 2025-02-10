@@ -36,4 +36,10 @@ export class OrdersStatisticDto {
     description: 'Count new',
   })
   news: number;
+
+  @ApiProperty({
+    example: 12,
+    description: 'Count null',
+  })
+  status_null: number;
 }

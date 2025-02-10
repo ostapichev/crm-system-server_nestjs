@@ -8,9 +8,9 @@ import {
 } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities';
+import { OrdersStatisticDto } from '../../admin-panel/dto/res/orders-statistic.dto';
 import { columns } from '../../orders/constants/columns';
 import { OrderListQueryDto } from '../../orders/dto/req/order-list-query.dto';
-import { OrdersStatisticDto } from '../../orders/dto/res/orders-statistic.dto';
 
 @Injectable()
 export class OrderRepository extends Repository<OrderEntity> {
@@ -64,6 +64,10 @@ export class OrderRepository extends Repository<OrderEntity> {
       .where('order.status = :new', { new: 'new' })
       .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
       .getCount();
+    const status_null = this.createQueryBuilder('order')
+      .where('order.status IS NULL', { null: null })
+      .andWhere(userId ? 'order.manager_id = :userId' : '1=1', { userId })
+      .getCount();
     return {
       orders,
       agree: await agree,
@@ -71,6 +75,7 @@ export class OrderRepository extends Repository<OrderEntity> {
       disagree: await disagree,
       dubbing: await dubbing,
       news: await news,
+      status_null: await status_null,
     };
   }
 
