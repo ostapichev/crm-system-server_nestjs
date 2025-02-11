@@ -25,6 +25,7 @@ export class UsersController {
 
   @ApiOperation({ description: 'Get list all users' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   @Get()
   public async findAllUsers(
@@ -37,6 +38,7 @@ export class UsersController {
 
   @ApiOperation({ description: 'Get user statistic' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @Get('statistic/:userId')
   public async statisticUser(
     @Param('userId') userId: number,
@@ -47,6 +49,7 @@ export class UsersController {
 
   @ApiOperation({ description: 'Get user by id' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   @Get(':userId')
   public async findUser(

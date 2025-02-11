@@ -16,10 +16,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-
     let status: number;
     let messages: string[] | string;
-
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       messages = exception.message;
@@ -28,7 +26,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       messages = 'Internal server error';
     }
     this.logger.error(exception);
-
     messages = Array.isArray(messages) ? messages : [messages];
     response.status(status).json({
       statusCode: status,
