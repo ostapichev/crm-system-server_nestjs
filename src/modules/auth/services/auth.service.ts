@@ -50,6 +50,7 @@ export class AuthService {
             ...dto,
             password,
             created_at: new Date(),
+            last_login: null,
           }),
         );
         return { user: UserMapper.toResponseItemDTO(user) };

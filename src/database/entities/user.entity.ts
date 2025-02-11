@@ -29,7 +29,7 @@ export class UserEntity extends CreateUpdateModel {
   is_active: boolean;
 
   @CreateDateColumn({ type: 'timestamp', nullable: true })
-  last_login: Date;
+  last_login?: Date;
 
   @OneToMany(() => CommentEntity, (entity) => entity.user)
   comments?: CommentEntity[];
