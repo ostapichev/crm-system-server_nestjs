@@ -6,6 +6,9 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Matches,
+  Max,
+  Min,
 } from 'class-validator';
 
 import { TransformHelper } from '../../../../common';
@@ -27,6 +30,7 @@ export class BaseOrderReqDto {
   @IsString()
   @IsOptional()
   @Transform(TransformHelper.trim)
+  @Matches(/^[a-zA-Zа-яА-яёЁіІїЇ]{2,20}$/)
   @Type(() => String)
   name?: string;
 
@@ -34,6 +38,7 @@ export class BaseOrderReqDto {
   @IsString()
   @IsOptional()
   @Transform(TransformHelper.trim)
+  @Matches(/^[a-zA-Zа-яА-яёЁіІїЇ]{2,20}$/)
   @Type(() => String)
   surname?: string;
 
@@ -48,12 +53,15 @@ export class BaseOrderReqDto {
   @IsString()
   @IsOptional()
   @Transform(TransformHelper.trim)
+  @Matches(/^\d{12}$/)
   @Type(() => String)
   phone?: string;
 
   @ApiProperty({ example: 20 })
   @IsNumber()
   @IsOptional()
+  @Min(16)
+  @Max(90)
   @Type(() => Number)
   age?: number;
 
