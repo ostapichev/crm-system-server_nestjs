@@ -13,7 +13,10 @@ async function bootstrap() {
   const appConfig = configService.get<AppConfig>('app');
   const config = new DocumentBuilder()
     .setTitle('CRM system: orders')
-    .setDescription('CRM system for IT school')
+    .setDescription(
+      `CRM system for IT school. ` +
+        `Base URL: 'http://${appConfig.host}:${appConfig.port}/api'`,
+    )
     .setVersion('1.0.0')
     .addBearerAuth({
       type: 'http',
@@ -23,13 +26,15 @@ async function bootstrap() {
     })
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document, {
+  SwaggerModule.setup('api/docs', app, document, {
     swaggerOptions: {
       docExpansion: 'list',
       defaultModelsExpandDepth: 2,
       persistAuthorization: true,
     },
   });
+  document.servers = [{ url: '/api' }];
+  app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -40,9 +45,11 @@ async function bootstrap() {
   await app.listen(appConfig.port, async () => {
     const superuser = app.get<SuperUserService>(SuperUserService);
     await superuser.createSuperUser();
-    Logger.log(`Server running on http://${appConfig.host}:${appConfig.port}`);
     Logger.log(
-      `Swagger running on http://${appConfig.host}:${appConfig.port}/docs`,
+      `Server running on http://${appConfig.host}:${appConfig.port}/api/home`,
+    );
+    Logger.log(
+      `Swagger running on http://${appConfig.host}:${appConfig.port}/api/docs`,
     );
   });
 }

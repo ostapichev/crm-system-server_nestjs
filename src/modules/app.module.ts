@@ -8,6 +8,7 @@ import configuration from '../config/configuration';
 import { AdminPanelModule } from './admin-panel/admin-panel.module';
 import { AuthModule } from './auth/auth.module';
 import { GroupsModule } from './groups/groups.module';
+import { HomePageModule } from './home-page/home-page.module';
 import { LoggerModule } from './logger/logger.module';
 import { MysqlModule } from './mysql/mysql.module';
 import { OrdersModule } from './orders/orders.module';
@@ -31,6 +32,7 @@ import { UsersModule } from './users/users.module';
     RedisModule,
     GroupsModule,
     UsersModule,
+    HomePageModule,
   ],
   providers: [
     {
