@@ -37,7 +37,7 @@ export class HomePageService {
             </li>
          </ul>
          <div class="card-body text-secondary">
-            <h5 class="card-title">The project is backend component. The frontend component is located: 
+            <h5 class="card-title">This project is backend component. The frontend component is located: 
                <a href="https://github.com/ostapichev/crm-system-client" target="_blank">crm system client</a>
             </h5>
             <p class="card-text">
