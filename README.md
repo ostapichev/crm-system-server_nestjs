@@ -72,5 +72,6 @@ npm run start:local
 ## Stay in touch
 
 - Author - [Oleh Ostapenko](https://github.com/ostapichev)
-- Phone - 38-(093)-721-68-19
-- mail - <a>ytoxos@gmail.com</a>
+- Mail me - <a>ytoxos@gmail.com</a>
+- Call me - 38-(093)-721-68-19
+- 
