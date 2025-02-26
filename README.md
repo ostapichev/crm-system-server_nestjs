@@ -19,23 +19,23 @@ The backend is built using NestJS with TypeScript, docker-compose, redis and MyS
 2. Clone the repository crm system server to your local machine: 
    git clone: 
 ```bash 
-$ https://github.com/ostapichev/crm-system-server_nestjs
+https://github.com/ostapichev/crm-system-server_nestjs
 ```
 3. Insert your data on the <code>local.env</code> file.
 4. Install the project dependencies:
 ```bash
-$ npm install
+npm install
 ```
 
 ## Running the app
 
 1. Start the project:
 ```bash
-$ npm run start:docker:db
+npm run start:docker:db
 ```
 then
 ```bash
-$ npm run start:local
+npm run start:local
 ```
 2. When the project is launched for the first time, 
    an admin with superuser rights is created using data from the 
