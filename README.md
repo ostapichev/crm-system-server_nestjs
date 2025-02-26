@@ -2,16 +2,13 @@
   <a href="https://owu.com.ua/" target="blank"><img src="https://owu.com.ua/wp-content/uploads/2023/12/Blue-Big-Bird-Final-Logo.webp" width="200" alt="Okten Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
 ## Description
 This project is backend component. The frontend component is located:
-<a href="https://github.com/ostapichev/crm-system-client" target="_blank">crm system client</a>
+[crm system client](https://github.com/ostapichev/crm-system-client)
 The CRM system for an IT school is a web application designed to streamline student management,
 course enrollment, and administrative processes.
 The backend is built using NestJS with TypeScript, docker-compose, redis and MySQL cloud service:
-<a href="http://owu.linkpc.net/mysql" target="_blank">http://owu.linkpc.net/mysql</a>
+[http://owu.linkpc.net/mysql](http://owu.linkpc.net/mysql)
 
 ## Installation
 1. To run the project on your computer you must install Node JS version 22.XX.XX, NPM version 10.XX.XX, 
@@ -40,9 +37,13 @@ npm run start:local
    an admin with superuser rights is created using data from the 
    <code>local.env</code>.
 3. Open your web browser and access URL home page:
-   <code>http://localhost:[port from local.env]/api/home</code> 
+```bash
+http://localhost:[port from local.env]/api/home
+```
    and swagger documentation 
-   <code>http://localhost:[port from local.env]/api/docs</code>
+```bash
+http://localhost:[port from local.env]/api/docs
+```
 
 ## Details
 ### User rights and roles
