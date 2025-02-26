@@ -16,10 +16,9 @@ The backend is built using NestJS with TypeScript, docker-compose, redis and MyS
 ## Installation
 1. To run the project on your computer you must install Node JS version 22.XX.XX, NPM version 10.XX.XX, 
    Docker version 27.X.X, Intellij IDEA ultimate edition and Postman for testing the operation endpoints.
-2. Clone the repository crm system server to your local machine: 
-   git clone: 
+2. Clone the repository crm system server to your local machine:  
 ```bash 
-https://github.com/ostapichev/crm-system-server_nestjs
+git clone https://github.com/ostapichev/crm-system-server_nestjs
 ```
 3. Insert your data on the <code>local.env</code> file.
 4. Install the project dependencies:
