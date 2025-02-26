@@ -69,6 +69,12 @@ npm run start:local
    accepted and receive the “in_work” status. If you edit an accepted order and give it the “new_order” status, 
    it will be available to other managers.
 
+### Tokens
+
+- Access token after login is valid for 10 minutes.
+- Refresh token is valid for 20 minutes.
+- Activate token is valid for 30 minutes.
+
 ## Stay in touch
 
 - Author - [Oleh Ostapenko](https://github.com/ostapichev)
