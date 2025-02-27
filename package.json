@@ -1,6 +1,6 @@
 {
   "name": "nestjsadmin",
-  "version": "0.0.1",
+  "version": "1.1.0",
   "description": "CRM system for IT school",
   "author": "Olehlevik",
   "private": true,
@@ -47,9 +47,8 @@
     "class-validator": "^0.14.1",
     "cross-var": "^1.1.0",
     "dayjs": "^1.11.13",
-    "ejs": "^3.1.10",
     "exceljs": "^4.4.0",
-    "express-handlebars": "^8.0.1",
+    "hbs": "^4.2.0",
     "ioredis": "^5.4.1",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.4",

@@ -11,21 +11,6 @@
 			"name": "AdminPanel",
 			"item": [
 				{
-					"name": "getAllUsers",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{accessToken}}"
-							}
-						},
-						"method": "GET",
-						"header": [],
-						"url": "{{host}}/admin"
-					},
-					"response": []
-				},
-				{
 					"name": "createUser",
 					"request": {
 						"auth": {
@@ -45,7 +30,51 @@
 								}
 							}
 						},
-						"url": "{{host}}/admin"
+						"url": "{{host}}/api/admin"
+					},
+					"response": []
+				},
+				{
+					"name": "getActivateToken",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/activate-user/:userId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"activate-user",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": ""
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -61,11 +90,12 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/admin/ban/:userId",
+							"raw": "{{host}}/api/admin/ban/:userId",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"api",
 								"admin",
 								"ban",
 								":userId"
@@ -92,11 +122,12 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/admin/unban/:userId",
+							"raw": "{{host}}/api/admin/unban/:userId",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"api",
 								"admin",
 								"unban",
 								":userId"
@@ -108,6 +139,21 @@
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrdersStatistic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/admin/orders-statistic"
 					},
 					"response": []
 				}
@@ -148,7 +194,57 @@
 								}
 							}
 						},
-						"url": "{{host}}/auth/sign-in"
+						"url": "{{host}}/api/auth/sign-in"
+					},
+					"response": []
+				},
+				{
+					"name": "activateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/activate/:activateToken",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"activate",
+								":activateToken"
+							],
+							"variable": [
+								{
+									"key": "activateToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUxLCJpYXQiOjE3MzgxODg1MDcsImV4cCI6MTczODIyNDUwN30.vfQ3zmQcf9O2UA_FsUa9ydK_c8zw7GfI6uFE8FrqNcc"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -178,7 +274,7 @@
 						},
 						"method": "POST",
 						"header": [],
-						"url": "{{host}}/auth/refresh"
+						"url": "{{host}}/api/auth/refresh"
 					},
 					"response": []
 				},
@@ -193,7 +289,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/auth/me"
+						"url": "{{host}}/api/auth/me"
 					},
 					"response": []
 				},
@@ -208,7 +304,7 @@
 						},
 						"method": "POST",
 						"header": [],
-						"url": "{{host}}/auth/sign-out"
+						"url": "{{host}}/api/auth/sign-out"
 					},
 					"response": []
 				}
@@ -217,6 +313,30 @@
 		{
 			"name": "Orders",
 			"item": [
+				{
+					"name": "createOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"surname\": \"\",\n    \"email\": \"\",\n    \"phone\": \"\",\n    \"age\": \"\",\n    \"course\": \"\",\n    \"course_format\": \"\",\n    \"course_type\": \"\",\n    \"status\": \"\",\n    \"sum\": \"\",\n    \"alreadyPaid\": \"\",\n    \"created_at\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/orders"
+					},
+					"response": []
+				},
 				{
 					"name": "getAllOrders",
 					"request": {
@@ -229,11 +349,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/orders",
+							"raw": "{{host}}/api/orders",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"api",
 								"orders"
 							],
 							"query": [
@@ -244,6 +365,71 @@
 								},
 								{
 									"key": "sorting_by",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "surname",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "age",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "course",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "course_format",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "course_type",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "group",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "created_after",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "created_before",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "manager",
 									"value": null,
 									"disabled": true
 								}
@@ -264,11 +450,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/orders/:orderId",
+							"raw": "{{host}}/api/orders/:orderId",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"api",
 								"orders",
 								":orderId"
 							],
@@ -320,14 +507,9 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Groups",
-			"item": [
+				},
 				{
-					"name": "GetAllGroups",
+					"name": "getCommentsByOrderId",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -337,12 +519,96 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/groups"
+						"url": {
+							"raw": "{{host}}/api/orders/comments/:orderId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"comments",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": ""
+								}
+							]
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "CreateGroup",
+					"name": "addCommentByOrderId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/orders/comments/:orderId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"comments",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downloadExel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/orders/download"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "getAllGroups",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/groups"
+					},
+					"response": []
+				},
+				{
+					"name": "createGroup",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -361,7 +627,142 @@
 								}
 							}
 						},
-						"url": "{{host}}/groups"
+						"url": "{{host}}/api/groups"
+					},
+					"response": []
+				},
+				{
+					"name": "getGroupById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/groups/:groupId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"groups",
+								":groupId"
+							],
+							"variable": [
+								{
+									"key": "groupId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "getAllUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/users/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserStatistic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accessToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/users/statistic/:userId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"statistic",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "1"
+								}
+							]
+						}
 					},
 					"response": []
 				}

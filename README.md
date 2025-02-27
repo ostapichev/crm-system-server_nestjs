@@ -36,7 +36,7 @@ npm run start:local
 2. When the project is launched for the first time, 
    an admin with superuser rights is created using data from the 
    <code>local.env</code>.
-3. Open your web browser and access URL home page:
+3. Once the application is running you can visit:
 ```bash
 http://localhost:[port from local.env]/api/home
 ```

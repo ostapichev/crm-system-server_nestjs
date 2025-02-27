@@ -21,7 +21,7 @@ async function bootstrap() {
       `CRM system for IT school. ` +
         `Base URL: 'http://${appConfig.host}:${appConfig.port}/api'`,
     )
-    .setVersion('1.0.0')
+    .setVersion('1.1.0')
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
@@ -38,8 +38,9 @@ async function bootstrap() {
     },
   });
   document.servers = [{ url: '/api' }];
+  app.useStaticAssets(join(process.cwd(), 'public'));
   app.setBaseViewsDir(join(process.cwd(), 'static'));
-  app.setViewEngine('ejs');
+  app.setViewEngine('hbs');
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
