@@ -1,18 +1,16 @@
-import { Controller, Get, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Controller, Get, Render } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { SkipAuth } from '../auth/decorators/skip-auth.decorator';
-import { HomePageService } from './services/home-page.service';
 
 @ApiTags('Home page')
 @Controller('home')
 export class HomePageController {
-  constructor(private readonly homePageService: HomePageService) {}
-
+  @ApiOperation({ description: 'Get information about crm system API' })
   @SkipAuth()
+  @Render('index')
   @Get()
-  public getHomePage(@Res() res: Response): void {
-    this.homePageService.getHomePage(res);
+  public getHomePage() {
+    return { message: 'Welcome to crm system API' };
   }
 }

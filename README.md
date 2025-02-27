@@ -79,5 +79,5 @@ http://localhost:[port from local.env]/api/docs
 ## Stay in touch
 
 - Author - [Oleh Ostapenko](https://github.com/ostapichev)
-- Mail me - <a>ytoxos@gmail.com</a>
+- Mail me - ytoxos@gmail.com
 - Call me - 38-(093)-721-68-19

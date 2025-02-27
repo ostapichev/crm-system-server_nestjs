@@ -21,8 +21,6 @@ export class LoggerService {
         Sentry.anrIntegration({ captureStackTrace: true }),
       ],
       debug: sentryConfig.debug,
-      tracesSampleRate: 1.0,
-      profilesSampleRate: 1.0,
     });
   }
 

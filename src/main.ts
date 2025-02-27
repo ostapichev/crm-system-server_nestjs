@@ -1,14 +1,18 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { join } from 'path';
 
 import { AppConfig } from './config';
 import { AppModule } from './modules/app.module';
 import { SuperUserService } from './modules/users/services/super-user.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
   const configService = app.get(ConfigService);
   const appConfig = configService.get<AppConfig>('app');
   const config = new DocumentBuilder()
@@ -34,6 +38,8 @@ async function bootstrap() {
     },
   });
   document.servers = [{ url: '/api' }];
+  app.setBaseViewsDir(join(process.cwd(), 'static'));
+  app.setViewEngine('ejs');
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
