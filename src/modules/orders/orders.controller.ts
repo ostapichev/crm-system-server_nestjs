@@ -98,10 +98,11 @@ export class OrdersController {
   @UseGuards(OwnerGuard)
   @Patch(':orderId')
   public async update(
+    @CurrentUser() userData: IUserData,
     @Param('orderId') orderId: number,
     @Body() dto: CreateUpdateOrderReqDto,
   ): Promise<CreateUpdateOrderResDto> {
-    const result = await this.ordersService.updateOrder(orderId, dto);
+    const result = await this.ordersService.updateOrder(orderId, dto, userData);
     return OrderMapper.toResponseCreateUpdateItemDTO(result);
   }
 

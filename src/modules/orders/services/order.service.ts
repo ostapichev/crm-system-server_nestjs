@@ -54,6 +54,7 @@ export class OrdersService {
   public async updateOrder(
     orderId: number,
     dto: CreateUpdateOrderReqDto,
+    userData: IUserData,
   ): Promise<OrderEntity> {
     const order = await this.findOrder(orderId);
     const group = await this.groupsService.getGroupById(dto.group_id);
@@ -65,6 +66,9 @@ export class OrdersService {
       order.manager = null;
       this.orderRepository.merge(order, dto);
       return await this.orderRepository.save(order);
+    } else {
+      order.status = StatusEnum.IN_WORK;
+      order.manager_id = userData.userId;
     }
     this.orderRepository.merge(order, dto);
     return await this.orderRepository.save(order);
