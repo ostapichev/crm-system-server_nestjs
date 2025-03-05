@@ -67,7 +67,6 @@ export class OrdersService {
       this.orderRepository.merge(order, dto);
       return await this.orderRepository.save(order);
     } else {
-      order.status = StatusEnum.IN_WORK;
       order.manager_id = userData.userId;
     }
     this.orderRepository.merge(order, dto);
